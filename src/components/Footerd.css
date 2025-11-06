@@ -3,8 +3,14 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  background-color: #000;
+  background-color: #144c65;
   color: #fff;
   padding: 1rem;
   text-align: center;
+  display: flex;
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  text-align: center;
+  padding: 20px 0;
 }
