@@ -87,13 +87,8 @@ export default function Navbar() {
         </li>
 
 
-<<<<<<< HEAD
-        <li><Link to="/contactus">Contact us</Link></li>
-        <li><Link to="/history">History</Link></li>
-        <li><Link to="/Language">Language</Link></li>
-=======
 
-        <li><Link to="/contact">{t("Contact")}</Link></li>
+        <li><Link to="/contactus">{t("Contact")}</Link></li>
         <li><Link to="/history">{t("history")}</Link></li>
 
         {/* Language switcher */}
@@ -118,7 +113,6 @@ export default function Navbar() {
           </ul>
         </li>
 
->>>>>>> f9cff9404659c83553334ce5d6a277b6b29bda5c
       </ul>
 
 
