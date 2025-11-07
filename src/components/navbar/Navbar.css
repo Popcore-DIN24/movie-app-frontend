@@ -164,6 +164,73 @@
   display: flex;
 }
 
+/* ======== Language Button Style ======== */
+.lang-btn {
+  background: none;      
+  border: none;           
+  color: #E7F8FF;            
+  font-size: 14px;
+  cursor: pointer;
+  width: 100%;            
+  text-align: left;       
+  padding: 8px 12px;
+  transition: background 0.2s ease;
+}
+
+.lang-btn:hover {
+  background: rgba(255, 255, 255, 0.1); 
+}
+
+
+.navbar.light .lang-btn {
+  color: #222;
+}
+
+.navbar.light .lang-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* ======== User Dropdown Style ======== */
+.user-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.user-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.user-dropdown-menu {
+  position: absolute;
+  top: 98%;
+  right: 0;
+  background-color: #133f5a;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  padding: 0.5rem 0;
+  min-width: 140px;
+  z-index: 1500;
+}
+
+.user-dropdown-menu li {
+  list-style: none;
+}
+
+.user-dropdown-menu a {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: #e7f8ff;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.user-dropdown-menu a:hover {
+  background-color: #111a33;
+  color: #f39c12;
+}
+
 
 /* =============== DESKTOP VIEW =============== */
 @media (min-width: 768px) {
