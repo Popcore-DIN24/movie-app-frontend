@@ -31,21 +31,19 @@ export default function Navbar() {
 
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (navbarRef.current && !navbarRef.current.contains(event.target as Node)) {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (navbarRef.current && !navbarRef.current.contains(e.target as Node)) {
         setMenuOpen(false);
         setDropdownOpen(null);
         setUserMenuOpen(false);
+      }
 
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
+        setUserMenuOpen(false);
       }
     };
-     if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
-      setUserMenuOpen(false);
-    }
- 
 
     document.addEventListener("mousedown", handleClickOutside);
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };

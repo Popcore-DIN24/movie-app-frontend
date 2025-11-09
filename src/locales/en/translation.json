@@ -1,4 +1,4 @@
-{
+{"nav": {
   "Home": "Home",
   "Movies": "Movies",
   "Theaters": "Theaters",
@@ -10,4 +10,18 @@
   "language": "Language",
   "signIn": "Sign In",
   "signUp": "Sign Up"
+},
+ "category": {
+    "action": "Action",
+    "comedy": "Comedy",
+    "drama": "Drama",
+    "horror": "Horror",
+    "romance": "Romance",
+    "scifi": "Science Fiction",
+    "fantasy": "Fantasy",
+    "thriller": "Thriller",
+    "animation": "Animation",
+    "adventure": "Adventure",
+    "documentary": "Documentary"
+  }
 }

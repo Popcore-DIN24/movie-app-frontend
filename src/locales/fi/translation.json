@@ -1,4 +1,4 @@
-{
+{"nav": {
   "Home": "Koti",
   "Movies": "Elokuvat",
   "Theaters": "Elokuvateatterit",
@@ -10,5 +10,20 @@
   "language": "Kieli",
   "signIn": "Kirjaudu sisään",
   "signUp": "Rekisteröidy"
+},
+  "category": {
+    "action": "Toiminta",
+    "comedy": "Komedia",
+    "drama": "Draama",
+    "horror": "Kauhu",
+    "romance": "Romanssi",
+    "scifi": "Tieteiskuvaelma",
+    "fantasy": "Fantasia",
+    "thriller": "Jännitys",
+    "animation": "Animaatio",
+    "adventure": "Seikkailu",
+    "documentary": "Dokumentti"
+  }
 }
+
 
