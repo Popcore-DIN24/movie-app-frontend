@@ -5,6 +5,7 @@ import Layout from "./pages/Layout";
 import Movies from "./pages/user/Movies";
 import ContactUs from "./pages/user/ContactUs";
 import History from "./pages/user/History";
+import Admin from "./pages/admin/Admin";
 
 
 import "./i18n";
@@ -31,6 +32,9 @@ function App() {
         },{
           path:"/history",
           element:<History/>
+        },{
+          path:"/admin",
+          element:<Admin/>
         }
       ]
     }
