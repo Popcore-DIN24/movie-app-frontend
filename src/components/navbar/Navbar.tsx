@@ -39,6 +39,7 @@ export default function Navbar() {
 
       }
     };
+    const event: React.MouseEvent<HTMLButtonElement> = {} as React.MouseEvent<HTMLButtonElement>;
      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
       setUserMenuOpen(false);
     }
