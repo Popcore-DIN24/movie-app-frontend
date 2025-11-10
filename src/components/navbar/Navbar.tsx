@@ -90,6 +90,7 @@ export default function Navbar() {
 
         <li><Link to="/contactus">{t("Contact")}</Link></li>
         <li><Link to="/history">{t("history")}</Link></li>
+        <li> <Link to="/admin">{t("Admin")}</Link></li>
 
         {/* Language switcher */}
         <li
