@@ -9,7 +9,6 @@ import Admin from "./pages/admin/Admin";
 
 
 import "./i18n";
-import CreateMovies from "./pages/admin/CreateMovies";
 
 function App() {
    const router = createBrowserRouter([
