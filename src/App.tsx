@@ -9,6 +9,7 @@ import Admin from "./pages/admin/Admin";
 
 
 import "./i18n";
+import EditMovies from "./pages/admin/EditMovies";
 
 function App() {
    const router = createBrowserRouter([
@@ -35,6 +36,9 @@ function App() {
         },{
           path:"/admin",
           element:<Admin/>
+        },{
+          path:"/admin/movie/edit/:id",
+          element:<EditMovies/>
         }
       ]
     }
