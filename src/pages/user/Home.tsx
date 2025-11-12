@@ -1,21 +1,13 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef,useEffect } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/Footer"
 import styles from "./Home.module.css";
 import { useTranslation } from "react-i18next";
 
-
-import img1 from "../../assets/images/test/1.jpeg";
-import img2 from "../../assets/images/test/3.jpeg";
-import img3 from "../../assets/images/test/4.jpeg";
-
 export default function Home() {
   const { t } = useTranslation();
   const [selectedCity, setSelectedCity] = useState("Helsinki");
-
-  const images = [img1, img2, img3];
   const scrollerRef = useRef<HTMLDivElement | null>(null);
-
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedCity(e.target.value);
   };
@@ -48,7 +40,6 @@ export default function Home() {
     "romance",
     "scifi",
     "fantasy",
-    "thriller",
     "animation",
     "adventure",
     "documentary",
@@ -56,7 +47,7 @@ export default function Home() {
 
   type CategoryKey = typeof categories[number];
 
-  /* ✅ refs ساختن */
+  /* ✅ refs  */
   const categoryRefs: Record<CategoryKey, React.RefObject<HTMLDivElement | null>> =
     categories.reduce((acc, key) => {
       acc[key] = React.createRef<HTMLDivElement>();
@@ -80,7 +71,32 @@ export default function Home() {
     });
   };
 
-  
+    const [movies, setMovies] = useState<any[]>([]);
+    useEffect(() => {
+      const fetchMovies = async () => {
+        try {
+          const response = await fetch("https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/api/v6/movies");
+          if (!response.ok) throw new Error("Failed to fetch movies");
+          const data = await response.json();
+          setMovies(data);
+        } catch (error) {
+          console.error("❌ Error fetching movies:", error);
+        }
+      };
+
+      fetchMovies();
+    }, []);
+
+
+    const getGenres = (genre: string) => {
+      try {
+        const cleaned = genre.replace(/[\{\}"]/g, ""); 
+        return cleaned.split(",").map(g => g.toLowerCase().trim());
+      } catch {
+        return [genre.toLowerCase()];
+      }
+    };
+
 
 
   return (
@@ -113,12 +129,14 @@ export default function Home() {
           </button>
 
           <div className={styles.scroller} ref={scrollerRef}>
-            {images.map((src, idx) => (
+            {movies.map((movie, idx) => (
               <div className={styles.card} key={idx}>
-                <img src={src} alt="" className={styles.cardImg} />
+                <img src={movie.poster_url} alt={movie.title} className={styles.cardImg} />
+                <div className={styles.movieTitle}>{movie.title}</div>
               </div>
             ))}
           </div>
+
 
           <button
             className={`${styles.carouselBtn} ${styles.right}`}
@@ -153,15 +171,19 @@ export default function Home() {
             </h2>
 
             <div className={styles.rowScroller}>
-              {images.map((src, idx) => (
+              {movies
+              .filter((m) => getGenres(m.genre).includes(key))
+              .map((movie, idx) => (
                 <div className={styles.rowCard} key={idx}>
-                  <img src={src} alt="" />
+                  <img src={movie.poster_url} alt={movie.title} />
                 </div>
               ))}
+
             </div>
           </div>
         ))}
       </section>
+
       <div> <Footer/></div>
     </div>
   );

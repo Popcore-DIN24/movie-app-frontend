@@ -1,6 +1,7 @@
 import "./Navbar.css";
 import { Link } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
+import SearchModal from "./SearchModal";
 
 // import icons directly
 import menuIcon from "../../assets/icons/menu-burger.svg";
@@ -10,8 +11,6 @@ import userIcon from "../../assets/icons/user.svg";
 import logoImg from "../../assets/icons/logo.png";
 //import i18n hook
 import { useTranslation } from "react-i18next";
-
-import SearchModal from "./SearchModal";
 
 export default function Navbar() {
 
@@ -23,39 +22,43 @@ export default function Navbar() {
   const changeLanguage = (lang: string) => {
     i18n.changeLanguage(lang);
   };
-
-  //ref for navbar to close menus when clicking outside
+//ref for navbar to close menus when clicking outside
   const navbarRef = useRef<HTMLDivElement | null>(null);
-  //ref for user menu to close when clicking outside
+//ref for user menu to close when clicking outside
   const userMenuRef = useRef<HTMLDivElement | null>(null);
 
-  //for user menu (signin/signup)
+//for user menu (signin/signup)
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  //for search modal
-  const [searchModalOpen, setSearchModalOpen] = useState(false);
+
 
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (navbarRef.current && !navbarRef.current.contains(e.target as Node)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (navbarRef.current && !navbarRef.current.contains(event.target as Node)) {
         setMenuOpen(false);
         setDropdownOpen(null);
         setUserMenuOpen(false);
-      }
 
-      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
-        setUserMenuOpen(false);
       }
     };
+    const event: React.MouseEvent<HTMLButtonElement> = {} as React.MouseEvent<HTMLButtonElement>;
+     if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+      setUserMenuOpen(false);
+    }
+ 
 
     document.addEventListener("mousedown", handleClickOutside);
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
-  const handleSearch = (filters: any) => {
-    console.log("filters :", filters);
-    // api call with filters
+  //search modal state
+  const [searchModalOpen, setSearchModalOpen] = useState(false);
+  //handle search from modal
+  const handleSearch = (query: string) => {
+    console.log("Searching for:", query);
+    // Implement search logic here
   };
 
   return (
@@ -72,11 +75,11 @@ export default function Navbar() {
         </Link>
       </div>
 
-      {/* Navigation links (visible in desktop, hidden in mobile) */}
+
+       {/* Navigation links (visible in desktop, hidden in mobile) */}
       <ul className={`navbar__links ${menuOpen ? "open" : ""}`}>
         <li><Link to="/">{t("Home")}</Link></li>
         <li><Link to="/movies">{t("Movies")}</Link></li>
-
         {/* Dropdown */}
         <li
           className={`dropdown ${dropdownOpen === "theaters" ? "open" : ""}`}
@@ -92,8 +95,11 @@ export default function Navbar() {
           </ul>
         </li>
 
-        <li><Link to="/contact">{t("Contact")}</Link></li>
+
+
+        <li><Link to="/contactus">{t("Contact")}</Link></li>
         <li><Link to="/history">{t("history")}</Link></li>
+        <li> <Link to="/admin">{t("Admin")}</Link></li>
 
         {/* Language switcher */}
         <li
@@ -119,6 +125,8 @@ export default function Navbar() {
 
       </ul>
 
+
+      {/* Right: Action icons */}
       {/* Right: Action icons */}
       <div className="navbar__actions">
 

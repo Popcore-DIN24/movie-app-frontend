@@ -1,4 +1,4 @@
-{
+{"nav": {
   "Home": "Home",
   "Movies": "Movies",
   "Theaters": "Theaters",
@@ -9,6 +9,31 @@
   "history": "History",
   "language": "Language",
   "signIn": "Sign In",
-  "signUp": "Sign Up",
-  "Admin": "Admin"
+  "signUp": "Sign Up"
+},
+ "category": {
+    "action": "Action",
+    "comedy": "Comedy",
+    "drama": "Drama",
+    "horror": "Horror",
+    "romance": "Romance",
+    "scifi": "Science Fiction",
+    "fantasy": "Fantasy",
+    "thriller": "Thriller",
+    "animation": "Animation",
+    "adventure": "Adventure",
+    "documentary": "Documentary"
+  },
+  "searchModal":{
+  "searchMovies": "Search Movies",
+  "movieTitle": "Movie Title",
+  "category": "Category",
+  "ageGroup": "Age Group",
+  "actor": "Actor",
+  "city": "City",
+  "cinema": "Cinema",
+  "search": "Search",
+  "close": "Close"
+}
+
 }
