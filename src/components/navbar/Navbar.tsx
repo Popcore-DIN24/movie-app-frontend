@@ -1,6 +1,7 @@
 import "./Navbar.css";
 import { Link } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
+import SearchModal from "./SearchModal";
 
 // import icons directly
 import menuIcon from "../../assets/icons/menu-burger.svg";
@@ -52,6 +53,13 @@ export default function Navbar() {
     };
   }, []);
 
+  //search modal state
+  const [searchModalOpen, setSearchModalOpen] = useState(false);
+  //handle search from modal
+  const handleSearch = (query: string) => {
+    console.log("Searching for:", query);
+    // Implement search logic here
+  };
 
   return (
     <nav className="navbar" ref={navbarRef}>
@@ -119,26 +127,41 @@ export default function Navbar() {
 
 
       {/* Right: Action icons */}
+      {/* Right: Action icons */}
       <div className="navbar__actions">
-  <img src={searchIcon} alt="search" className="navbar__icon" />
 
-  {/* User dropdown */}
-  <div className="user-dropdown">
-      <button
-        className="user-btn"
-        onClick={() => setUserMenuOpen(!userMenuOpen)}
-      >
-        <img src={userIcon} alt="user" className="navbar__icon" />
-      </button>
+        {/* ✅ search icon opens modal */}
+        <img
+          src={searchIcon}
+          alt="search"
+          className="navbar__icon"
+          onClick={() => setSearchModalOpen(true)}
+        />
 
-      {userMenuOpen && (
-        <ul className="user-dropdown-menu">
-          <li><Link to="/signin">{t("signIn")}</Link></li>
-          <li><Link to="/signup">{t("signUp")}</Link></li>
-        </ul>
-      )}
-    </div>
-  </div>
+        {/* User dropdown */}
+        <div className="user-dropdown">
+          <button
+            className="user-btn"
+            onClick={() => setUserMenuOpen(!userMenuOpen)}
+          >
+            <img src={userIcon} alt="user" className="navbar__icon" />
+          </button>
+
+          {userMenuOpen && (
+            <ul className="user-dropdown-menu">
+              <li><Link to="/signin">{t("signIn")}</Link></li>
+              <li><Link to="/signup">{t("signUp")}</Link></li>
+            </ul>
+          )}
+        </div>
+      </div>
+
+      {/* ✅ Search Modal Component */}
+      <SearchModal
+        isOpen={searchModalOpen}
+        onClose={() => setSearchModalOpen(false)}
+        onSearch={handleSearch}
+      />
 
     </nav>
   );

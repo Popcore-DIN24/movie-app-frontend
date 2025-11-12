@@ -1,4 +1,4 @@
-{
+{"nav": {
   "Home": "Koti",
   "Movies": "Elokuvat",
   "Theaters": "Elokuvateatterit",
@@ -9,7 +9,33 @@
   "history": "Historia",
   "language": "Kieli",
   "signIn": "Kirjaudu sisään",
-  "signUp": "Rekisteröidy",
-  "Admin": "Ylläpitäjä"
+  "signUp": "Rekisteröidy"
+},
+  "category": {
+    "action": "Toiminta",
+    "comedy": "Komedia",
+    "drama": "Draama",
+    "horror": "Kauhu",
+    "romance": "Romanssi",
+    "scifi": "Tieteiskuvaelma",
+    "fantasy": "Fantasia",
+    "thriller": "Jännitys",
+    "animation": "Animaatio",
+    "adventure": "Seikkailu",
+    "documentary": "Dokumentti"
+  },
+  "searchModal":{
+  "searchMovies": "Etsi elokuvia",
+  "movieTitle": "Elokuvan nimi",
+  "category": "Kategoria",
+  "ageGroup": "Ikäryhmä",
+  "actor": "Näyttelijä",
+  "city": "Kaupunki",
+  "cinema": "Elokuvateatteri",
+  "search": "Etsi",
+  "close": "Sulje"
 }
+
+}
+
 
