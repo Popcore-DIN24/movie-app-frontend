@@ -8,10 +8,11 @@ import ContactUs from "./pages/user/ContactUs";
 import History from "./pages/user/History";
 import Admin from "./pages/admin/Admin";
 import EditMovies from "./pages/admin/EditMovies";
+import DeleteMovies from './pages/admin/DeleteMovies';
 
 
 import "./i18n";
-import EditMovies from "./pages/admin/EditMovies";
+
 
 function App() {
    const router = createBrowserRouter([
@@ -39,12 +40,11 @@ function App() {
           path:"/admin",
           element:<Admin/>
         },{
-<<<<<<< HEAD
-          path:"/admin/movie/edit/:id",
-=======
           path:"/edit-movies",
->>>>>>> 501a7f7269eccfdde5d15032a1e23b3009f8545a
           element:<EditMovies/>
+        },{
+          path:"/delete-movies",
+          element:<DeleteMovies/>
         }
 
       ]

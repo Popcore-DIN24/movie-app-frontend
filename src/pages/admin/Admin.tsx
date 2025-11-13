@@ -3,8 +3,8 @@ import EditMovies from "./EditMovies"
 export default function Admin() {
   return (
     <div>
-      {/* <CreateMovies/> */}
-      <EditMovies/>
+      <CreateMovies/>
+      {/* <EditMovies/> */}
     </div>
   )
 }
