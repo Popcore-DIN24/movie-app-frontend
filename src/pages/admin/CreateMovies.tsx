@@ -84,6 +84,8 @@ export default function CreateMovies() {
 
   return (
     <>
+    <div>
+
     <div className="create-container">
       <form onSubmit={handleSubmit}>
         <h2>Create New Movie</h2>
@@ -169,11 +171,10 @@ export default function CreateMovies() {
           {loading ? "Submitting..." : "Create Movie"}
         </button>
       </form>
-      <div className="button-group">
+
       <button type="button" onClick={() => navigate("/edit-movies")} className="nav-btn">
         Go to Edit Movies
       </button>
-      
       <button type="button" onClick={() => navigate("/delete-movies")} className="nav-btn">
         Go to Delete Movies
       </button>

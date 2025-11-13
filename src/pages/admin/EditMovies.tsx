@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
+import type { ChangeEvent, FormEvent } from "react";
 import "./EditMovies.css";
+import type { Movie } from "../../types/Movie";
+
 
 export default function EditMovies() {
-  const [movies, setMovies] = useState([]);
-  const [selectedMovie, setSelectedMovie] = useState(null);
-  const [formData, setFormData] = useState({
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
+  const [formData, setFormData] = useState<Movie>({
+    id: 0,
     title: "",
     description: "",
     genre: "",
@@ -16,12 +20,12 @@ export default function EditMovies() {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  // ✅ Pagination state
+  // Pagination state
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const limit = 8;
 
-  // ✅ Fetch paginated movies
+  // Fetch paginated movies
   useEffect(() => {
     const fetchMovies = async () => {
       setLoading(true);
@@ -50,30 +54,28 @@ export default function EditMovies() {
     fetchMovies();
   }, [page]);
 
-  // ✅ When a movie is selected
-  const handleSelectMovie = (movieId) => {
+  // When a movie is selected
+  const handleSelectMovie = (movieId: string) => {
     const movie = movies.find((m) => m.id.toString() === movieId);
     if (movie) {
       setSelectedMovie(movie);
       setFormData({
-        title: movie.title || "",
-        description: movie.description || "",
-        genre: movie.genre || "",
-        duration_minutes: movie.duration_minutes || "",
+        ...movie,
         release_date: movie.release_date?.split("T")[0] || "",
-        poster_url: movie.poster_url || "",
       });
     }
   };
 
-  // ✅ Handle form input changes
-  const handleChange = (e) => {
+  // Handle form input changes
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // ✅ Submit update
-  const handleSubmit = async (e) => {
+  // Submit update
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!selectedMovie) return;
 
@@ -133,11 +135,7 @@ export default function EditMovies() {
         <form onSubmit={handleSubmit} className="edit-form">
           {formData.poster_url && (
             <div className="poster-wrapper">
-              <img
-                src={formData.poster_url}
-                alt="poster"
-                className="poster"
-              />
+              <img src={formData.poster_url} alt="poster" className="poster" />
             </div>
           )}
 
@@ -207,7 +205,7 @@ export default function EditMovies() {
         </form>
       )}
 
-      {/* ✅ Pagination Controls */}
+      {/* Pagination Controls */}
       <div className="pagination">
         <button
           onClick={() => setPage((p) => Math.max(p - 1, 1))}

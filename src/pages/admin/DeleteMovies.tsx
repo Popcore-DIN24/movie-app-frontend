@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import "./DeleteMovies.css"; // 👈 we'll create this CSS file below
-
+import type { Movie } from "../../types/Movie";
 export default function DeleteMovies() {
-  const [movies, setMovies] = useState([]);
-  const [selectedMovie, setSelectedMovie] = useState(null);
+  const [movies, setMovies] = useState<Movie[]>([]);
+//   const [selectedMovie, setSelectedMovie] = useState(null);
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -43,7 +43,7 @@ export default function DeleteMovies() {
   }, [page]);
 
   // ✅ Handle delete
-  const handleDelete = async (movie) => {
+  const handleDelete = async (movie: Movie | null | undefined): Promise<void> => {
     if (!movie) return;
     const confirmDelete = window.confirm(
       `Are you sure you want to delete "${movie.title}"?`
@@ -106,6 +106,7 @@ export default function DeleteMovies() {
             </div>
             <div className="movie-info">
               <h3>{movie.title}</h3>
+              <p className="genre">{movie.genre}</p>
               <button
                 className="delete-button"
                 onClick={() => handleDelete(movie)}

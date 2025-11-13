@@ -7,9 +7,6 @@
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.5);
   font-family: Arial, sans-serif;
-  display: flex;
-  flex-direction: column;
-  min-height: 80vh; /* ensures enough height for sticky buttons */
 }
 
 .create-container h2 {
@@ -25,8 +22,12 @@
   margin-bottom: 1rem;
   font-weight: 500;
 }
-.message.success { background-color: #2e7d32; }
-.message.error { background-color: #c62828; }
+.message.success {
+  background-color: #2e7d32;
+}
+.message.error {
+  background-color: #c62828;
+}
 
 .form-group {
   margin-bottom: 1rem;
@@ -55,13 +56,14 @@
 }
 
 button {
+  width: 100%;
   padding: 0.7rem;
+  margin-top: 0.5rem;
   font-weight: bold;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   transition: background 0.3s;
-  width: 100%;
 }
 
 button:disabled {
@@ -69,28 +71,33 @@ button:disabled {
   cursor: not-allowed;
 }
 
-.submit-btn { background-color: #1976d2; color: #fff; }
-.submit-btn:hover:not(:disabled) { background-color: #1259a4; }
+.submit-btn {
+  background-color: #1976d2;
+  color: #fff;
+}
+.submit-btn:hover:not(:disabled) {
+  background-color: #1259a4;
+}
 
-.nav-btn { background-color: #6a1b9a; color: #fff; }
-.nav-btn:hover { background-color: #4a0072; }
-
-.button-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-top: auto; /* pushes buttons to the bottom */
-  padding-top: 1rem;
-  position: sticky;
-  bottom: 0;
-  background-color: #111; /* same as container to blend */
-  border-top: 1px solid #333; /* optional separation */
-  padding-bottom: 1rem;
+.nav-btn {
+  background-color: #6a1b9a;
+  color: #fff;
+}
+.nav-btn:hover {
+  background-color: #4a0072;
 }
 
 @media (max-width: 480px) {
-  .create-container { padding: 1rem; }
+  .create-container {
+    padding: 1rem; 
+  }
+
   .form-group input,
-  .form-group select,
-  button { font-size: 0.9rem; }
+  .form-group select {
+    font-size: 0.9rem;
+  }
+
+  button {
+    font-size: 0.9rem;
+  }
 }
