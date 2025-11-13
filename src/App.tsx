@@ -8,6 +8,7 @@ import ContactUs from "./pages/user/ContactUs";
 import History from "./pages/user/History";
 import Admin from "./pages/admin/Admin";
 import EditMovies from "./pages/admin/EditMovies";
+import DeleteMovies from './pages/admin/DeleteMovies';
 
 
 import "./i18n";
@@ -40,6 +41,9 @@ function App() {
         },{
           path:"/edit-movies",
           element:<EditMovies/>
+        },{
+          path:"/delete-movies",
+          element:<DeleteMovies/>
         }
 
       ]
