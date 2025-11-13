@@ -1,15 +1,8 @@
-import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
+import  { useEffect, useState } from "react";
+import type { ChangeEvent, FormEvent } from "react";
 import "./EditMovies.css";
+import type { Movie } from "../../types/Movie";
 
-interface Movie {
-  id: number;
-  title: string;
-  description: string;
-  genre: string;
-  duration_minutes: number | string;
-  release_date: string;
-  poster_url: string;
-}
 
 export default function EditMovies() {
   const [movies, setMovies] = useState<Movie[]>([]);
