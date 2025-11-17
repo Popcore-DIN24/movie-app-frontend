@@ -6,9 +6,7 @@ import Layout from "./pages/Layout";
 import Movies from "./pages/user/Movies";
 import ContactUs from "./pages/user/ContactUs";
 import History from "./pages/user/History";
-import Admin from "./pages/admin/Admin";
-import EditMovies from "./pages/admin/EditMovies";
-import DeleteMovies from './pages/admin/DeleteMovies';
+
 
 
 import "./i18n";
@@ -35,15 +33,6 @@ function App() {
         },{
           path:"/history",
           element:<History/>
-        },{
-          path:"/admin",
-          element:<Admin/>
-        },{
-          path:"/edit-movies",
-          element:<EditMovies/>
-        },{
-          path:"/delete-movies",
-          element:<DeleteMovies/>
         }
 
       ]
