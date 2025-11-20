@@ -1,25 +1,55 @@
-import React, { useState, useRef,useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Navbar from "../../components/navbar/Navbar";
-import Footer from "../../components/Footer"
+import Footer from "../../components/Footer";
 import styles from "./Home.module.css";
 import { useTranslation } from "react-i18next";
 
-export default function Home() {
+type CategoryKey =
+  | "action"
+  | "comedy"
+  | "drama"
+  | "horror"
+  | "romance"
+  | "scifi"
+  | "fantasy"
+  | "animation"
+  | "adventure"
+  | "documentary";
+
+interface Showtime {
+  theater_city?: string;
+}
+
+interface ScheduledMovie {
+  id?: number;
+  title: string;
+  poster_url?: string;
+  genre?: string;
+  showtimes?: Showtime[];
+}
+
+export default function Home(): React.JSX.Element {
   const { t } = useTranslation();
-  const [selectedCity, setSelectedCity] = useState("Helsinki");
+
+  const [selectedCity, setSelectedCity] = useState<string>("");
+  const [movies, setMovies] = useState<ScheduledMovie[]>([]);
+
   const scrollerRef = useRef<HTMLDivElement | null>(null);
+
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedCity(e.target.value);
   };
 
+  /* ───────────────────────────
+     SCROLL BY STEP
+  ─────────────────────────── */
   const scrollByStep = (direction: "next" | "prev") => {
     const scroller = scrollerRef.current;
     if (!scroller) return;
 
-    const children = scroller.children;
-    if (children.length === 0) return;
+    const firstChild = scroller.children[0] as HTMLElement | undefined;
+    if (!firstChild) return;
 
-    const firstChild = children[0] as HTMLElement;
     const itemWidth = Math.round(firstChild.getBoundingClientRect().width);
 
     scroller.scrollTo({
@@ -31,7 +61,9 @@ export default function Home() {
     });
   };
 
-  /* ✅ CATEGORY LIST */
+  /* ───────────────────────────
+      CATEGORIES + REFS
+  ─────────────────────────── */
   const categories = [
     "action",
     "comedy",
@@ -45,24 +77,20 @@ export default function Home() {
     "documentary",
   ] as const;
 
-  type CategoryKey = typeof categories[number];
+  const categoryRefs: Record<
+    CategoryKey,
+    React.RefObject<HTMLHeadingElement>
+  > = categories.reduce((acc, key) => {
+    acc[key] = React.createRef<HTMLHeadingElement>();
+    return acc;
+  }, {} as Record<CategoryKey, React.RefObject<HTMLHeadingElement>>);
 
-  /* ✅ refs  */
-  const categoryRefs: Record<CategoryKey, React.RefObject<HTMLDivElement | null>> =
-    categories.reduce((acc, key) => {
-      acc[key] = React.createRef<HTMLDivElement>();
-      return acc;
-    }, {} as Record<CategoryKey, React.RefObject<HTMLDivElement | null>>);
-
-  /* scrool to category*/
   const scrollToCategory = (key: CategoryKey) => {
     const element = categoryRefs[key]?.current;
     if (!element) return;
 
     const viewportHeight = window.innerHeight;
-
     const elementTop = element.getBoundingClientRect().top + window.pageYOffset;
-
     const offset = viewportHeight / 2 - element.offsetHeight / 2;
 
     window.scrollTo({
@@ -71,33 +99,63 @@ export default function Home() {
     });
   };
 
-    const [movies, setMovies] = useState<any[]>([]);
-    useEffect(() => {
-      const fetchMovies = async () => {
-        try {
-          const response = await fetch("https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/api/v6/movies");
-          if (!response.ok) throw new Error("Failed to fetch movies");
-          const data = await response.json();
-          setMovies(data);
-        } catch (error) {
-          console.error("❌ Error fetching movies:", error);
-        }
-      };
-
-      fetchMovies();
-    }, []);
-
-
-    const getGenres = (genre: string) => {
+  /* ───────────────────────────
+      FETCH MOVIES
+  ─────────────────────────── */
+  useEffect(() => {
+    const fetchMovies = async () => {
       try {
-        const cleaned = genre.replace(/[\{\}"]/g, ""); 
-        return cleaned.split(",").map(g => g.toLowerCase().trim());
-      } catch {
-        return [genre.toLowerCase()];
+        const response = await fetch(
+          "https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/api/v6/movies/scheduled"
+        );
+        if (!response.ok) throw new Error("Failed to fetch movies");
+
+        const data: ScheduledMovie[] = await response.json();
+        setMovies(data);
+      } catch (error) {
+        console.error("❌ Error fetching movies:", error);
       }
     };
 
+    fetchMovies();
+  }, []);
 
+  /* ───────────────────────────
+      GENRE NORMALIZER
+  ─────────────────────────── */
+  const getGenres = (genre?: string): string[] => {
+    if (!genre) return [];
+
+    try {
+      if (genre.trim().startsWith("{")) {
+        const cleaned = genre.replace(/[\{\}"]/g, "");
+        return cleaned.split(",").map((g) => g.toLowerCase().trim());
+      }
+
+      if (genre.includes(",")) {
+        return genre.split(",").map((g) => g.toLowerCase().trim());
+      }
+
+      return [genre.toLowerCase().trim()];
+    } catch {
+      return [genre.toLowerCase()];
+    }
+  };
+
+  /* ───────────────────────────
+      FILTER MOVIES BY SELECTED CITY
+  ─────────────────────────── */
+ 
+
+   const selectedCityNormalized = selectedCity.trim().toLowerCase();
+
+  const filteredMovies = movies.filter((movie) => {
+    if (!selectedCityNormalized) return true; // show all when selection is empty
+    return (movie.showtimes ?? []).some((showtime) => {
+      const city = showtime.theater_city;
+      return typeof city === "string" && city.trim().toLowerCase() === selectedCityNormalized;
+    });
+  });
 
   return (
     <div className={styles.pageRoot}>
@@ -111,6 +169,7 @@ export default function Home() {
             value={selectedCity}
             onChange={handleChange}
           >
+            <option value="">All cities</option>
             <option value="Oulu">Oulu</option>
             <option value="Helsinki">Helsinki</option>
             <option value="Turku">Turku</option>
@@ -129,14 +188,17 @@ export default function Home() {
           </button>
 
           <div className={styles.scroller} ref={scrollerRef}>
-            {movies.map((movie, idx) => (
-              <div className={styles.card} key={idx}>
-                <img src={movie.poster_url} alt={movie.title} className={styles.cardImg} />
+            {filteredMovies.map((movie, idx) => (
+              <div className={styles.card} key={movie.id ?? idx}>
+                <img
+                  src={movie.poster_url}
+                  alt={movie.title}
+                  className={styles.cardImg}
+                />
                 <div className={styles.movieTitle}>{movie.title}</div>
               </div>
             ))}
           </div>
-
 
           <button
             className={`${styles.carouselBtn} ${styles.right}`}
@@ -162,7 +224,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* MOVIE ROWS SECTION */}
+      {/* MOVIE ROWS */}
       <section className={styles.movieRows}>
         {categories.map((key) => (
           <div key={key} className={styles.movieRowWrapper}>
@@ -171,20 +233,19 @@ export default function Home() {
             </h2>
 
             <div className={styles.rowScroller}>
-              {movies
-              .filter((m) => getGenres(m.genre).includes(key))
-              .map((movie, idx) => (
-                <div className={styles.rowCard} key={idx}>
-                  <img src={movie.poster_url} alt={movie.title} />
-                </div>
-              ))}
-
+              {filteredMovies
+                .filter((m) => getGenres(m.genre).includes(key))
+                .map((movie, idx) => (
+                  <div className={styles.rowCard} key={movie.id ?? idx}>
+                    <img src={movie.poster_url} alt={movie.title} />
+                  </div>
+                ))}
             </div>
           </div>
         ))}
       </section>
 
-      <div> <Footer/></div>
+      <Footer />
     </div>
   );
 }
