@@ -28,7 +28,7 @@ interface ScheduledMovie {
   showtimes?: Showtime[];
 }
 
-export default function Home(): React.JSX.Element {
+export default function Home(): JSX.Element {
   const { t } = useTranslation();
 
   const [selectedCity, setSelectedCity] = useState<string>("");
@@ -40,9 +40,6 @@ export default function Home(): React.JSX.Element {
     setSelectedCity(e.target.value);
   };
 
-  /* ───────────────────────────
-     SCROLL BY STEP
-  ─────────────────────────── */
   const scrollByStep = (direction: "next" | "prev") => {
     const scroller = scrollerRef.current;
     if (!scroller) return;
@@ -61,9 +58,6 @@ export default function Home(): React.JSX.Element {
     });
   };
 
-  /* ───────────────────────────
-      CATEGORIES + REFS
-  ─────────────────────────── */
   const categories = [
     "action",
     "comedy",
@@ -79,11 +73,11 @@ export default function Home(): React.JSX.Element {
 
   const categoryRefs: Record<
     CategoryKey,
-    React.RefObject<HTMLHeadingElement>
+    React.RefObject<HTMLHeadingElement | null>
   > = categories.reduce((acc, key) => {
-    acc[key] = React.createRef<HTMLHeadingElement>();
+    acc[key] = React.createRef<HTMLHeadingElement | null>();
     return acc;
-  }, {} as Record<CategoryKey, React.RefObject<HTMLHeadingElement>>);
+  }, {} as Record<CategoryKey, React.RefObject<HTMLHeadingElement | null>>);
 
   const scrollToCategory = (key: CategoryKey) => {
     const element = categoryRefs[key]?.current;
@@ -99,9 +93,6 @@ export default function Home(): React.JSX.Element {
     });
   };
 
-  /* ───────────────────────────
-      FETCH MOVIES
-  ─────────────────────────── */
   useEffect(() => {
     const fetchMovies = async () => {
       try {
@@ -120,9 +111,6 @@ export default function Home(): React.JSX.Element {
     fetchMovies();
   }, []);
 
-  /* ───────────────────────────
-      GENRE NORMALIZER
-  ─────────────────────────── */
   const getGenres = (genre?: string): string[] => {
     if (!genre) return [];
 
@@ -142,15 +130,10 @@ export default function Home(): React.JSX.Element {
     }
   };
 
-  /* ───────────────────────────
-      FILTER MOVIES BY SELECTED CITY
-  ─────────────────────────── */
- 
-
-   const selectedCityNormalized = selectedCity.trim().toLowerCase();
+  const selectedCityNormalized = selectedCity.trim().toLowerCase();
 
   const filteredMovies = movies.filter((movie) => {
-    if (!selectedCityNormalized) return true; // show all when selection is empty
+    if (!selectedCityNormalized) return true;
     return (movie.showtimes ?? []).some((showtime) => {
       const city = showtime.theater_city;
       return typeof city === "string" && city.trim().toLowerCase() === selectedCityNormalized;
@@ -161,7 +144,6 @@ export default function Home(): React.JSX.Element {
     <div className={styles.pageRoot}>
       <Navbar />
 
-      {/* HERO */}
       <div className={styles.heroWrapper}>
         <div className={styles.citySelectorWrapper}>
           <select
@@ -177,7 +159,6 @@ export default function Home(): React.JSX.Element {
         </div>
       </div>
 
-      {/* CAROUSEL */}
       <section className={styles.carouselSection}>
         <div className={styles.carouselContainer}>
           <button
@@ -209,7 +190,6 @@ export default function Home(): React.JSX.Element {
         </div>
       </section>
 
-      {/* CATEGORY BAR */}
       <section className={styles.categorySection}>
         <div className={styles.categoryScroller}>
           {categories.map((key) => (
@@ -224,7 +204,6 @@ export default function Home(): React.JSX.Element {
         </div>
       </section>
 
-      {/* MOVIE ROWS */}
       <section className={styles.movieRows}>
         {categories.map((key) => (
           <div key={key} className={styles.movieRowWrapper}>
