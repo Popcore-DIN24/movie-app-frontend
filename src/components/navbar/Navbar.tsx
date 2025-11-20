@@ -1,105 +1,93 @@
 import "./Navbar.css";
 import { Link } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
-import SearchModal from "./SearchModal";
 
-// import icons directly
 import menuIcon from "../../assets/icons/menu-burger.svg";
 import searchIcon from "../../assets/icons/search.svg";
 import userIcon from "../../assets/icons/user.svg";
-//import logoImage
 import logoImg from "../../assets/icons/logo.png";
-//import i18n hook
+
 import { useTranslation } from "react-i18next";
+
+import SearchModal from "./SearchModal";
 
 export default function Navbar() {
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
-  
-  //i18n translation hook
+
   const { t, i18n } = useTranslation();
   const changeLanguage = (lang: string) => {
     i18n.changeLanguage(lang);
   };
-//ref for navbar to close menus when clicking outside
+
   const navbarRef = useRef<HTMLDivElement | null>(null);
-//ref for user menu to close when clicking outside
   const userMenuRef = useRef<HTMLDivElement | null>(null);
 
-//for user menu (signin/signup)
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-
+  const [searchModalOpen, setSearchModalOpen] = useState(false);
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (navbarRef.current && !navbarRef.current.contains(event.target as Node)) {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (navbarRef.current && !navbarRef.current.contains(e.target as Node)) {
         setMenuOpen(false);
         setDropdownOpen(null);
         setUserMenuOpen(false);
+      }
 
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
+        setUserMenuOpen(false);
       }
     };
-    const event: React.MouseEvent<HTMLButtonElement> = {} as React.MouseEvent<HTMLButtonElement>;
-     if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
-      setUserMenuOpen(false);
-    }
- 
 
     document.addEventListener("mousedown", handleClickOutside);
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
-  //search modal state
-  const [searchModalOpen, setSearchModalOpen] = useState(false);
-  //handle search from modal
-  const handleSearch = (query: string) => {
-    console.log("Searching for:", query);
-    // Implement search logic here
+  const handleSearch = (filters: any) => {
+    console.log("filters :", filters);
   };
 
   return (
     <nav className="navbar" ref={navbarRef}>
-      {/* Left: Menu icon (mobile only) */}      
+
+      {/* Menu icon (mobile) */}
       <div className="navbar__menu" onClick={() => setMenuOpen(!menuOpen)}>
         <img src={menuIcon} alt="menu" className="navbar__icon navbar__menu-icon" />
       </div>
 
-      {/* Center: Logo (click → go home) */}
+      {/* Logo */}
       <div className="navbar__logo">
         <Link to="/" className="navbar__logo-link">
           <img src={logoImg} alt="MovieApp logo" className="navbar__logo-img" />
         </Link>
       </div>
 
-
-       {/* Navigation links (visible in desktop, hidden in mobile) */}
+      {/* Navigation links */}
       <ul className={`navbar__links ${menuOpen ? "open" : ""}`}>
-        <li><Link to="/">{t("Home")}</Link></li>
-        <li><Link to="/movies">{t("Movies")}</Link></li>
-        {/* Dropdown */}
+        <li><Link to="/">{t("nav.Home")}</Link></li>
+        <li><Link to="/movies">{t("nav.Movies")}</Link></li>
+
+        {/* Dropdown: Theaters */}
         <li
           className={`dropdown ${dropdownOpen === "theaters" ? "open" : ""}`}
           onClick={() =>
             setDropdownOpen(dropdownOpen === "theaters" ? null : "theaters")
           }
         >
-          <span className="dropdown-toggle">{t("Theaters")}</span>
+          <span className="dropdown-toggle">{t("nav.Theaters")}</span>
           <ul className="dropdown-menu">
-            <li><a href="#">Cinema Nova (Oulu)</a></li>
-            <li><a href="#">Kino Baltic (Turku)</a></li>
-            <li><a href="#">Elokuvateatteri (Helsinki)</a></li>
+            <li><a href="#">{t("nav.cinema1")}</a></li>
+            <li><a href="#">{t("nav.cinema2")}</a></li>
+            <li><a href="#">{t("nav.cinema3")}</a></li>
           </ul>
         </li>
 
+        <li><Link to="/contact">{t("nav.Contact")}</Link></li>
 
-
-        <li><Link to="/contactus">{t("Contact")}</Link></li>
-        <li><Link to="/history">{t("history")}</Link></li>
-        <li> <Link to="/admin">{t("Admin")}</Link></li>
+        <li><Link to="/history">{t("nav.history")}</Link></li>
 
         {/* Language switcher */}
         <li
@@ -108,7 +96,7 @@ export default function Navbar() {
             setDropdownOpen(dropdownOpen === 'language' ? null : 'language')
           }
         >
-          <span className="dropdown-toggle">{t("language")}</span>
+          <span className="dropdown-toggle">{t("nav.language")}</span>
           <ul className="dropdown-menu">
             <li>
               <button onClick={() => changeLanguage("en")} className="lang-btn">
@@ -122,15 +110,11 @@ export default function Navbar() {
             </li>
           </ul>
         </li>
-
       </ul>
 
-
-      {/* Right: Action icons */}
-      {/* Right: Action icons */}
+      {/* Right section (search + user menu) */}
       <div className="navbar__actions">
 
-        {/* ✅ search icon opens modal */}
         <img
           src={searchIcon}
           alt="search"
@@ -149,14 +133,14 @@ export default function Navbar() {
 
           {userMenuOpen && (
             <ul className="user-dropdown-menu">
-              <li><Link to="/signin">{t("signIn")}</Link></li>
-              <li><Link to="/signup">{t("signUp")}</Link></li>
+              <li><Link to="/signin">{t("nav.signIn")}</Link></li>
+              <li><Link to="/signup">{t("nav.signUp")}</Link></li>
             </ul>
           )}
         </div>
       </div>
 
-      {/* ✅ Search Modal Component */}
+      {/* Search Modal */}
       <SearchModal
         isOpen={searchModalOpen}
         onClose={() => setSearchModalOpen(false)}
