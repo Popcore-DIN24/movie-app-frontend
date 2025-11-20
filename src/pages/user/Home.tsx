@@ -28,7 +28,7 @@ interface ScheduledMovie {
   showtimes?: Showtime[];
 }
 
-export default function Home(): JSX.Element {
+export default function Home(): React.JSX.Element {
   const { t } = useTranslation();
 
   const [selectedCity, setSelectedCity] = useState<string>("");
