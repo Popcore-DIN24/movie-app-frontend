@@ -6,6 +6,7 @@ import Layout from "./pages/Layout";
 import Movies from "./pages/user/Movies";
 import ContactUs from "./pages/user/ContactUs";
 import History from "./pages/user/History";
+import MovieDetails from "./pages/user/MovieDetails";
 
 
 
@@ -34,6 +35,9 @@ function App() {
         },{
           path:"/history",
           element:<History/>
+        },{
+          path:"/movie/:id"
+          ,element:<MovieDetails/>
         }
 
       ]
