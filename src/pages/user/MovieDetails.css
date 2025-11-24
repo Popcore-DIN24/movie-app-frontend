@@ -1,0 +1,94 @@
+.movieDetailsRoot {
+  background: #060d21;
+  color: #e7f8ff;
+  min-height: 100vh;
+  padding: 16px;
+  box-sizing: border-box;
+  font-family: "Arial", sans-serif;
+}
+
+.movieTitle {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.moviePoster {
+  display: block;
+  width: 90%;
+  max-width: 400px;
+  margin: 0 auto 16px auto;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+  object-fit: cover;
+}
+
+.movieInfo {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 12px;
+  background: #111;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+.movieLabel {
+  font-weight: 600;
+  color: #f39c12;
+}
+
+.showTimesSection {
+  margin-top: 20px;
+}
+
+.showTimesSection h2 {
+  margin-bottom: 12px;
+  color: #f39c12;
+  text-align: center;
+}
+
+.showTimeCard {
+  display: flex;
+  justify-content: space-between;
+  background: #060d21;
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+  flex-wrap: wrap;
+}
+
+.showDate {
+  flex: 1 1 40%;
+  font-weight: 600;
+}
+
+.showTime {
+  flex: 1 1 20%;
+  text-align: center;
+}
+
+.showPrice {
+  flex: 1 1 30%;
+  text-align: right;
+  font-weight: bold;
+  color: #f39c12;
+}
+
+@media (max-width: 768px) {
+  .movieTitle {
+    font-size: 1.5rem;
+  }
+  .moviePoster {
+    width: 100%;
+  }
+  .showTimeCard {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .showTime, .showPrice {
+    text-align: left;
+    margin-top: 4px;
+  }
+}

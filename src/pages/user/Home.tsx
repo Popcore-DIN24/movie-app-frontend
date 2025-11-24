@@ -3,6 +3,7 @@ import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/Footer";
 import styles from "./Home.module.css";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 type CategoryKey =
   | "action"
@@ -134,9 +135,10 @@ export default function Home(): React.JSX.Element {
 
   const filteredMovies = movies.filter((movie) => {
     if (!selectedCityNormalized) return true;
+
     return (movie.showtimes ?? []).some((showtime) => {
-      const city = showtime.theater_city;
-      return typeof city === "string" && city.trim().toLowerCase() === selectedCityNormalized;
+      const city = showtime.theater_city?.trim().toLowerCase() || "";
+      return city.includes(selectedCityNormalized);
     });
   });
 
@@ -159,6 +161,7 @@ export default function Home(): React.JSX.Element {
         </div>
       </div>
 
+      {/* 🔥 CAROUSEL WITH CLICKABLE MOVIES */}
       <section className={styles.carouselSection}>
         <div className={styles.carouselContainer}>
           <button
@@ -170,14 +173,18 @@ export default function Home(): React.JSX.Element {
 
           <div className={styles.scroller} ref={scrollerRef}>
             {filteredMovies.map((movie, idx) => (
-              <div className={styles.card} key={movie.id ?? idx}>
+              <Link
+                to={`/movie/${movie.id}`}
+                className={styles.card}
+                key={movie.id ?? idx}
+              >
                 <img
                   src={movie.poster_url}
                   alt={movie.title}
                   className={styles.cardImg}
                 />
                 <div className={styles.movieTitle}>{movie.title}</div>
-              </div>
+              </Link>
             ))}
           </div>
 
@@ -190,6 +197,7 @@ export default function Home(): React.JSX.Element {
         </div>
       </section>
 
+      {/* 🔥 CATEGORY BUTTONS */}
       <section className={styles.categorySection}>
         <div className={styles.categoryScroller}>
           {categories.map((key) => (
@@ -204,6 +212,7 @@ export default function Home(): React.JSX.Element {
         </div>
       </section>
 
+      {/* 🔥 MOVIE ROWS */}
       <section className={styles.movieRows}>
         {categories.map((key) => (
           <div key={key} className={styles.movieRowWrapper}>
@@ -215,9 +224,13 @@ export default function Home(): React.JSX.Element {
               {filteredMovies
                 .filter((m) => getGenres(m.genre).includes(key))
                 .map((movie, idx) => (
-                  <div className={styles.rowCard} key={movie.id ?? idx}>
+                  <Link
+                    to={`/movie/${movie.id}`}
+                    className={styles.rowCard}
+                    key={movie.id ?? idx}
+                  >
                     <img src={movie.poster_url} alt={movie.title} />
-                  </div>
+                  </Link>
                 ))}
             </div>
           </div>
