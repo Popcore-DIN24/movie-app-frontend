@@ -143,12 +143,13 @@ export default function Home(): React.JSX.Element {
   });
 
   return (
-    <div className={styles.pageRoot}>
+    <div className={styles.pageRoot} data-testid="home-page">
       <Navbar />
 
       <div className={styles.heroWrapper}>
         <div className={styles.citySelectorWrapper}>
           <select
+            data-testid="city-select"
             className={styles.citySelector}
             value={selectedCity}
             onChange={handleChange}
@@ -174,6 +175,7 @@ export default function Home(): React.JSX.Element {
           <div className={styles.scroller} ref={scrollerRef}>
             {filteredMovies.map((movie, idx) => (
               <Link
+                data-testid="movie-card"
                 to={`/movie/${movie.id}`}
                 className={styles.card}
                 key={movie.id ?? idx}
@@ -220,7 +222,7 @@ export default function Home(): React.JSX.Element {
               {t(`category.${key}`)}
             </h2>
 
-            <div className={styles.rowScroller}>
+            <div className={styles.rowScroller} data-testid="genre-row">
               {filteredMovies
                 .filter((m) => getGenres(m.genre).includes(key))
                 .map((movie, idx) => (
