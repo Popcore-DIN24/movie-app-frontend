@@ -51,10 +51,10 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="navbar" ref={navbarRef}>
+    <nav className="navbar" ref={navbarRef} data-testid="navbar">
 
       {/* Menu icon (mobile) */}
-      <div className="navbar__menu" onClick={() => setMenuOpen(!menuOpen)}>
+      <div className="navbar__menu" onClick={() => setMenuOpen(!menuOpen)} data-testid="mobile-menu">
         <img src={menuIcon} alt="menu" className="navbar__icon navbar__menu-icon" />
       </div>
 
@@ -78,7 +78,7 @@ export default function Navbar() {
           }
         >
           <span className="dropdown-toggle">{t("nav.Theaters")}</span>
-          <ul className="dropdown-menu">
+          <ul className="dropdown-menu" data-testid="theaters-dropdown-menu">
             <li><a href="#">{t("nav.cinema1")}</a></li>
             <li><a href="#">{t("nav.cinema2")}</a></li>
             <li><a href="#">{t("nav.cinema3")}</a></li>
@@ -95,6 +95,7 @@ export default function Navbar() {
           onClick={() =>
             setDropdownOpen(dropdownOpen === 'language' ? null : 'language')
           }
+          data-testid="lang-dropdown"
         >
           <span className="dropdown-toggle">{t("nav.language")}</span>
           <ul className="dropdown-menu">
@@ -120,6 +121,7 @@ export default function Navbar() {
           alt="search"
           className="navbar__icon"
           onClick={() => setSearchModalOpen(true)}
+          data-testid="search-btn"
         />
 
         {/* User dropdown */}
@@ -127,12 +129,13 @@ export default function Navbar() {
           <button
             className="user-btn"
             onClick={() => setUserMenuOpen(!userMenuOpen)}
+            data-testid="user-btn"
           >
             <img src={userIcon} alt="user" className="navbar__icon" />
           </button>
 
           {userMenuOpen && (
-            <ul className="user-dropdown-menu">
+            <ul className="user-dropdown-menu" data-testid="user-dropdown">
               <li><Link to="/signin">{t("nav.signIn")}</Link></li>
               <li><Link to="/signup">{t("nav.signUp")}</Link></li>
             </ul>
@@ -145,6 +148,7 @@ export default function Navbar() {
         isOpen={searchModalOpen}
         onClose={() => setSearchModalOpen(false)}
         onSearch={handleSearch}
+        data-testid="search-modal"
       />
 
     </nav>
