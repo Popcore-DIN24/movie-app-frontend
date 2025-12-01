@@ -7,6 +7,7 @@ import Movies from "./pages/user/Movies";
 import ContactUs from "./pages/user/ContactUs";
 import History from "./pages/user/History";
 import MovieDetails from "./pages/user/MovieDetails";
+import CheckoutForm from './components/CheckoutForm';
 
 
 
@@ -38,7 +39,11 @@ function App() {
         },{
           path:"/movie/:id"
           ,element:<MovieDetails/>
+        }, {
+          path:"/checkout",
+          element:<CheckoutForm/>
         }
+
 
       ]
     }
