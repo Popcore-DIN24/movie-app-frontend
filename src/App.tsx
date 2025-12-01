@@ -7,6 +7,8 @@ import Movies from "./pages/user/Movies";
 import ContactUs from "./pages/user/ContactUs";
 import History from "./pages/user/History";
 import MovieDetails from "./pages/user/MovieDetails";
+import CinemaSeatSelection from './pages/user/CinemaSeatSelection';
+
 
 import "./i18n";
 import CheckoutPage from './pages/user/CheckoutPage';
@@ -43,6 +45,9 @@ function App() {
         },{
           path:"success",
           element:<SuccessfulPage/>
+        },{
+          path: "/movie/:movieId/showtime/:showId/seats",
+          element: <CinemaSeatSelection />
         }
 
 
