@@ -1,0 +1,49 @@
+.seatMap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem 0;
+}
+
+.seatRow {
+  display: flex;
+  margin: 0.25rem 0;
+}
+
+.seat {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #d1d5db; 
+  margin: 0 4px;
+  cursor: pointer;
+  transition: 0.2s;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  color: rgba(0, 0, 0, 0.6); 
+  font-weight: 500;
+  user-select: none; 
+}
+
+.seat:hover {
+  transform: scale(1.1);
+}
+
+.seat.selected {
+  background-color: #10b981; 
+  color: #ffffff; 
+}
+
+.seat.reserved {
+  background-color: #9ca3af; 
+  color: rgba(255,255,255,0.8); 
+  cursor: not-allowed;
+}
+
+.seat.aisle {
+  margin-right: 16px; 
+}
+

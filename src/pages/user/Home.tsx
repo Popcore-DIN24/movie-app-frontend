@@ -176,7 +176,7 @@ export default function Home(): React.JSX.Element {
             {filteredMovies.map((movie, idx) => (
               <Link
                 data-testid="movie-card"
-                to={`/movie/${movie.id}`}
+                to={`/movie/${movie.id}?city=${selectedCity}`}
                 className={styles.card}
                 key={movie.id ?? idx}
               >
