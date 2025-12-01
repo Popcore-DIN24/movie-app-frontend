@@ -110,9 +110,7 @@ export default function CinemaSeatSelection() {
 
       {/* Seat Map */}
       <SeatMap
-        hallId={showData.hall_id}
         rows={hallData.rows}
-        theaterId={showData.theater_id}
         columns={hallData.columns}
         showtimeId={showData.id.toString()}
         onSelect={handleSelect}
