@@ -11,7 +11,8 @@ import CinemaSeatSelection from './pages/user/CinemaSeatSelection';
 
 
 import "./i18n";
-
+import CheckoutPage from './pages/user/CheckoutPage';
+import SuccessfulPage from './pages/user/SuccessfulPayment';
 
 function App() {
    const router = createBrowserRouter([
@@ -38,10 +39,18 @@ function App() {
         },{
           path:"/movie/:id"
           ,element:<MovieDetails/>
+        }, {
+          path:"/checkout",
+          element:<CheckoutPage/>
+        },{
+          path:"success",
+          element:<SuccessfulPage/>
         },{
           path: "/movie/:movieId/showtime/:showId/seats",
           element: <CinemaSeatSelection />
         }
+
+
 
       ]
     }

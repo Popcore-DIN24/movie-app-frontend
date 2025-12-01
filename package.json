@@ -14,6 +14,8 @@
     "start": "vite"
   },
   "dependencies": {
+    "@stripe/react-stripe-js": "^5.4.1",
+    "@stripe/stripe-js": "^8.5.3",
     "i18next": "^25.6.0",
     "lucide-react": "^0.552.0",
     "react": "^19.2.0",

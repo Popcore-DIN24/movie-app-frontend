@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useParams, useLocation , useNavigate} from "react-router-dom";
 import "./MovieDetails.css";
 
 // Movie interface
@@ -109,7 +109,7 @@ export default function MovieDetails() {
           theater_city: s.theater_city,
           start_time: s.start_time,
           end_time: s.end_time,
-          price_amount: s.price_amount,
+          price_amount: s.price,
           theater_id: s.theater_id ?? 0,
           hall_id: s.hall_id ?? 0,
         }));
@@ -130,9 +130,12 @@ export default function MovieDetails() {
       }
       setLoading(false);
     };
+    
 
     fetchMovieAndShows();
   }, [id]);
+
+  useEffect(() => {console.log('filtered',filteredShows);}, [filteredShows]);
 
   // Filter showtimes based on selected city and date
   useEffect(() => {
@@ -159,6 +162,9 @@ export default function MovieDetails() {
   if (loading) return <div className="movieDetailsRoot">Loading...</div>;
   if (error) return <div className="movieDetailsRoot">{error}</div>;
   if (!movie) return <div className="movieDetailsRoot">No movie found</div>;
+  // function nav(){
+  //   navigate(`/checkout`)
+  // }
 
   // Navigate to seat selection page
   const goToSeatSelection = (show: Showtime) => {
@@ -254,6 +260,7 @@ export default function MovieDetails() {
               </div>
             ))
           )}
+          
         </div>
       </div>
     </div>
