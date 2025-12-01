@@ -1,0 +1,333 @@
+.seat-cinemaRoot {
+  min-height: 100vh;
+  background-color: #1f2937; 
+  color: #1f2937; 
+  padding-top: 80px; 
+  padding-bottom: 2rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.seat-movieSummaryBox {
+  margin: 2rem auto; 
+  padding: 1.5rem;
+  background-color: #ffffff; 
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  max-width: 800px;
+  width: calc(90% - 2rem); 
+  transition: transform 0.2s;
+}
+
+
+.seat-movieSummaryBox:hover {
+  transform: translateY(-4px);
+}
+
+.seat-movieSummaryBox img {
+  width: 140px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  border: 3px solid #1f2937; 
+}
+
+.seat-movieSummaryBox h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #111827;
+}
+
+.seat-movieSummaryBox p {
+  margin: 0.25rem 0;
+}
+
+.seat-movieSummaryBox .seat-city {
+  color: #4b5563; 
+  font-weight: 500;
+}
+
+.seat-movieSummaryBox .seat-datetime {
+  color: #6b7280; 
+  font-size: 0.9rem;
+}
+
+.seat-movieSummaryBox .seat-price {
+  color: #10b981; 
+  font-weight: 700;
+  font-size: 1rem;
+  margin-top: 0.25rem;
+}
+
+.seat-loadingText {
+  padding: 1rem;
+  color: #6b7280; 
+  text-align: center;
+  font-size: 1rem;
+}
+
+.seat-posterCard {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-bottom: 1px solid #d1d5db; 
+}
+
+.seat-posterCard img {
+  width: 80px;
+  height: 112px;
+  object-fit: cover;
+  border-radius: 0.25rem;
+  border: 2px solid #1f2937; 
+}
+
+.seat-posterCard h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.seat-posterCard p {
+  margin: 0.125rem 0;
+  color: #4b5563;
+}
+
+.seat-posterCard .capacity {
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+
+
+.cinemaGradientBar {
+  width: 77%; 
+  height: 40px; 
+  margin: 2rem auto; 
+  background: linear-gradient(90deg, #f598b1, #9d9dee); 
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+  
+  display: flex;          
+  align-items: center;     
+  justify-content: center; 
+  font-weight: bold;       
+  font-size: 1.1rem;       
+  color: rgb(41, 23, 107);            
+}
+
+
+
+/* SeatLegend*/
+.seatLegend {
+  background-color: #f9fafb; 
+  padding: 1.5rem 2rem;
+  max-width: 600px;
+  margin: 2rem auto;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+  color: #111827;
+  
+}
+
+.seatLegend h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #1f2937;
+}
+
+.seatLegend p {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.seatLegend-red, .seatLegend-green {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.seatLegend-red {
+  background-color: #ef4444; 
+  border: 2px solid #b91c1c;
+}
+
+.seatLegend-green {
+  background-color: #10b981; 
+  border: 2px solid #047857;
+}
+
+.tip {
+  font-size: 0.9rem;
+  color: #6b7280; 
+  margin-top: 1rem;
+}
+
+
+
+.seatSummary {
+  max-width: 600px;
+  margin: 1.5rem auto;
+  padding: 1rem 2.5rem;
+  background-color: #10192c; 
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  color: #fafafa;
+  font-family: 'Inter', sans-serif;
+}
+
+
+.buyTicketsButton {
+  display: block;
+  margin: 1rem auto 3rem auto;
+  padding: 0.75rem 2rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(90deg, #f43f5e, #3b82f6); 
+  border: none;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.buyTicketsButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+
+
+/* ================================
+   ★ MODAL OVERLAY
+================================ */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.75); /* dark + blur */
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* ================================
+   ★ MODAL BOX
+================================ */
+.modalBox {
+  width: 90%;
+  max-width: 420px;
+  background: #111827;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  animation: slideUp 0.35s ease-out;
+  text-align: center;
+  color: #f3f4f6;
+  font-family: 'Inter', sans-serif;
+}
+
+.modalBox h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #e5e7eb;
+  margin-bottom: 1.2rem;
+}
+
+/* ================================
+   ★ INPUTS
+================================ */
+.modalBox input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: #1f2937;
+  border: 1px solid #374151;
+  border-radius: 0.5rem;
+  color: #f9fafb;
+  margin: 0.5rem 0 1rem 0;
+  font-size: 1rem;
+  transition: 0.2s;
+}
+
+.modalBox input:focus {
+  border-color: #60a5fa;
+  box-shadow: 0 0 8px rgba(96,165,250,0.4);
+  outline: none;
+}
+
+/* ================================
+   ★ BUTTONS
+================================ */
+
+.confirmButton {
+  width: 100%;
+  padding: 0.8rem;
+  margin-top: 0.5rem;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 0.6rem;
+  background: linear-gradient(90deg, #10b981, #3b82f6);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.confirmButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(59,130,246,0.4);
+}
+
+.closeButton {
+  width: 100%;
+  padding: 0.7rem;
+  margin-top: 0.8rem;
+  font-weight: 700;
+  background: #374151;
+  border: none;
+  border-radius: 0.6rem;
+  color: #f9fafb;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.closeButton:hover {
+  background: #4b5563;
+}
+
+/* ================================
+   ★ ANIMATIONS
+================================ */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
