@@ -7,12 +7,10 @@ import Movies from "./pages/user/Movies";
 import ContactUs from "./pages/user/ContactUs";
 import History from "./pages/user/History";
 import MovieDetails from "./pages/user/MovieDetails";
-import CheckoutForm from './components/CheckoutForm';
-
-
 
 import "./i18n";
-
+import CheckoutPage from './pages/user/CheckoutPage';
+import SuccessfulPage from './pages/user/SuccessfulPayment';
 
 function App() {
    const router = createBrowserRouter([
@@ -41,8 +39,12 @@ function App() {
           ,element:<MovieDetails/>
         }, {
           path:"/checkout",
-          element:<CheckoutForm/>
+          element:<CheckoutPage/>
+        },{
+          path:"success",
+          element:<SuccessfulPage/>
         }
+
 
 
       ]

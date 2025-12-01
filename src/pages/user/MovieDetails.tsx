@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "./MovieDetails.css";
 
 interface Movie {
@@ -33,7 +33,7 @@ export default function MovieDetails() {
   const [error, setError] = useState<string | null>(null);
   const [showTimes, setShowTimes] = useState<ShowTime[]>([]);
   const [movieData, setMovieData]= useState<data[]>([])
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchMovieAndShows = async () => {
       try {
@@ -84,6 +84,9 @@ export default function MovieDetails() {
   if (loading) return <div className="movieDetailsRoot">Loading...</div>;
   if (error) return <div className="movieDetailsRoot">{error}</div>;
   if (!movie) return <div className="movieDetailsRoot">No movie found</div>;
+  function nav(){
+    navigate(`/checkout`)
+  }
 
   return (
     <div className="movieDetailsRoot">
@@ -121,9 +124,11 @@ export default function MovieDetails() {
                 <span className="showTime">{show.start_time}</span>
                 <span className="showTime">{show.end_time}</span>
                 <span className="showPrice">${show.price_amount}</span>
+                <button onClick={nav}>pay</button>
               </div>
             ))
           )}
+          
         </div>
       </div>
     </div>
