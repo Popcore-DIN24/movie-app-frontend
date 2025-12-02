@@ -44,16 +44,35 @@ export default function CinemaSeatSelection() {
   // Set hallData from showData
   // ======================================================
   useEffect(() => {
-    if (showData?.seat_layout) {
-      setHallData({
-        rows: showData.seat_layout.rows,
-        columns: showData.seat_layout.columns,
-      });
-    } else {
-      // Default layout if not provided
-      setHallData({ rows: 5, columns: 8 });
+    async function fetchHallLayoutandCompareID(){
+      try{
+        const response = await fetch(`https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/api/v6/theaters/${showData.theater_id}/halls/${showData.hall_id}`);
+        const fetchedHallData = await response.json();
+        if(fetchedHallData.data.seat_layout){
+          setHallData({
+            rows: Number(fetchedHallData.data.seat_layout.rows || fetchedHallData.data.seat_layout.row),
+            columns: parseInt(fetchedHallData.data.seat_layout.columns || fetchedHallData.data.seat_layout.column),
+          });
+          console.log('set hall data from fetched hall data', fetchedHallData.data.seat_layout)
+        }
+      }catch(err){console.log('error fetching hall layout', err)}
     }
-  }, [showData]);
+    fetchHallLayoutandCompareID();
+  },[ ])
+  // useEffect(() => {
+  //   if (showData?.seat_layout) {
+  //     setHallData({
+  //       rows: showData.seat_layout.rows,
+  //       columns: showData.seat_layout.columns,
+        
+  //     });
+  //     console.log('set hall data from show data', showData.seat_layout)
+  //   } else {
+  //     // Default layout if not provided
+  //     setHallData({ rows: 5, columns: 8 });
+  //   }
+  // }, [showData]);
+  // useEffect(()=>{console.log('This is show data','hall_id',showData.hall_id, showData.theater_id)},[])
 
   // ======================================================
   // Seat selection handler

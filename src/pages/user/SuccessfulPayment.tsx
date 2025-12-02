@@ -19,7 +19,7 @@ const SuccessfulPage = () => {
 
   useEffect(() => {
     if (sessionId) {
-      fetch(`http://localhost:3000/session-status?session_id=${sessionId}`)
+      fetch(`https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/session-status?session_id=${sessionId}`)
         .then((res) => {
           if (!res.ok) {
             throw new Error(`HTTP error! status: ${res.status}`);
@@ -31,6 +31,7 @@ const SuccessfulPage = () => {
             throw new Error(data.error);
           }
           setSession(data);
+          console.log("Session data:", data);
           setLoading(false);
         })
         .catch((err) => {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import "./SeatMap.css";
 
 interface Seat {
@@ -7,7 +7,7 @@ interface Seat {
 }
 
 interface SeatMapProps {
-  
+
   rows: number;
   columns: number;
   showtimeId: string;
@@ -28,6 +28,7 @@ export default function SeatMap({
   // Fetch reserved seats
   useEffect(() => {
     if (!showtimeId) return;
+    
 
     const fetchReservedSeats = async () => {
       try {
@@ -48,6 +49,7 @@ export default function SeatMap({
 
     fetchReservedSeats();
   }, [showtimeId]);
+  useEffect(() => {console.log('show rows and columns,', rows, columns )},[rows, columns])
 
   const handleSeatClick = (seat: Seat) => {
     const isSelected = selectedSeats.some(s => s.row === seat.row && s.col === seat.col);
