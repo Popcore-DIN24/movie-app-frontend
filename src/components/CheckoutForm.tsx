@@ -26,28 +26,25 @@ interface Show {
 }
 
 interface CheckoutFormProps {
-  userInfo: UserInfo;
+  // userInfo: UserInfo;
   seats: Seat[];
   movie: Movie;
   show: Show;
   totalPrice: number;
   onClose: () => void;
-  onConfirm: () => void;
-  returnUrl: string; // <-- add return URL for redirection after payment
+  // onConfirm: () => void;
+  // returnUrl: string; // <-- add return URL for redirection after payment
 }
 
 // ---------------------------
 // Component
 // ---------------------------
 export default function CheckoutForm({
-  userInfo,
   seats,
   movie,
   show,
   totalPrice,
   onClose,
-  onConfirm,
-  returnUrl,
 }: CheckoutFormProps) {
   const checkoutState = useCheckout();
 
