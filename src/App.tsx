@@ -43,7 +43,7 @@ function App() {
           path:"/checkout",
           element:<CheckoutPage/>
         },{
-          path:"success",
+          path:"/success",
           element:<SuccessfulPage/>
         },{
           path: "/movie/:movieId/showtime/:showId/seats",
