@@ -6,16 +6,16 @@ import CheckoutForm from "../../components/CheckoutForm";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
-interface Seat {
-  row: number;
-  col: number;
-}
+// interface Seat {
+//   row: number;
+//   col: number;
+// }
 
-interface UserInfo {
-  firstName: string;
-  lastName: string;
-  email: string;
-}
+// interface UserInfo {
+//   firstName: string;
+//   lastName: string;
+//   email: string;
+// }
 
 export default function CheckoutPage() {
   const location = useLocation();
