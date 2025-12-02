@@ -85,13 +85,11 @@ export default function CheckoutPage() {
       }}
     >
       <CheckoutForm
-        userInfo={userInfo}
         seats={selectedSeats}
         movie={movie}
         show={show}
         totalPrice={totalPrice}
         onClose={() => navigate(-1)}
-        onConfirm={() => navigate("/confirmation")}
       />
     </CheckoutProvider>
   );
