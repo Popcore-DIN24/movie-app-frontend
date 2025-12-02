@@ -9,11 +9,11 @@ interface Seat {
   col: number;
 }
 
-interface UserInfo {
-  firstName: string;
-  lastName: string;
-  email: string;
-}
+// interface UserInfo {
+//   firstName: string;
+//   lastName: string;
+//   email: string;
+// }
 
 interface Movie {
   title: string;
