@@ -84,12 +84,44 @@ export default function CinemaSeatSelection() {
   const totalPrice =
     selectedSeats.length * (Number(showData.price_amount) || 0); // fallback to 0 if undefined
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     if (selectedSeats.length === 0) {
       alert("Please select at least one seat");
       return;
     }
 
+    // ---------------------------
+    // 1) TEMP LOCK REQUEST HERE
+    // ---------------------------
+    try {
+      const res = await fetch(
+        "https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/api/temp-lock",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            showtimeId: showData.id,
+            seats: selectedSeats,   // row + col
+          }),
+        }
+      );
+
+      const json = await res.json();
+
+      if (!json.success) {
+        alert("Some seats were taken by someone else. Please re-select.");
+        return; 
+      }
+
+      console.log("Seats locked!", json);
+    } catch (err) {
+      console.log("Error locking seats", err);
+      return;
+    }
+
+    // ---------------------------
+    // 2) Move to next page
+    // ---------------------------
     navigate("/checkout", {
       state: {
         userInfo,
@@ -100,6 +132,7 @@ export default function CinemaSeatSelection() {
       },
     });
   };
+
 
   if (!hallData) return <div className="seat-loadingText">Loading hall...</div>;
 
