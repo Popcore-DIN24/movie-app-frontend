@@ -30,69 +30,66 @@ export default function CinemaSeatSelection() {
 
   const [selectedSeats, setSelectedSeats] = useState<Seat[]>([]);
   const [hallData, setHallData] = useState<{ rows: number; columns: number } | null>(null);
+  const [hallId, setHallId] = useState<number | null>(null);
 
-  // For demo purposes, let's hardcode the logged-in user info
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [theaterId, setTheaterId] = useState<number | null>(null);
+
   const userInfo: UserInfo = {
-    firstName: "John",
-    lastName: "Doe",
-    email: "john.doe@example.com",
+    firstName,
+    lastName,
+    email,
   };
 
   if (!movieData || !showData) return <div className="seat-loadingText">Loading...</div>;
 
+  
   // ======================================================
-  // Set hallData from showData
+  // Fetch hall layout
   // ======================================================
   useEffect(() => {
-    async function fetchHallLayoutandCompareID(){
-      try{
-        const response = await fetch(`https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/api/v6/theaters/${showData.theater_id}/halls/${showData.hall_id}`);
-        const fetchedHallData = await response.json();
-        if(fetchedHallData.data.seat_layout){
+    async function fetchHallLayout() {
+      try {
+        const response = await fetch(
+          `https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/api/v6/theaters/${showData.theater_id}/halls/${showData.hall_id}`
+        );
+        const json = await response.json();
+
+        if (json.data?.seat_layout) {
           setHallData({
-            rows: Number(fetchedHallData.data.seat_layout.rows || fetchedHallData.data.seat_layout.row),
-            columns: parseInt(fetchedHallData.data.seat_layout.columns || fetchedHallData.data.seat_layout.column),
+            rows: Number(json.data.seat_layout.rows || json.data.seat_layout.row),
+            columns: Number(json.data.seat_layout.columns || json.data.seat_layout.column),
           });
-          console.log('set hall data from fetched hall data', fetchedHallData.data.seat_layout)
+          setHallId(json.data.id);
         }
-      }catch(err){console.log('error fetching hall layout', err)}
+      } catch (err) {
+        console.error("Error fetching hall layout:", err);
+      }
     }
-    fetchHallLayoutandCompareID();
-  },[ ])
-  // useEffect(() => {
-  //   if (showData?.seat_layout) {
-  //     setHallData({
-  //       rows: showData.seat_layout.rows,
-  //       columns: showData.seat_layout.columns,
-        
-  //     });
-  //     console.log('set hall data from show data', showData.seat_layout)
-  //   } else {
-  //     // Default layout if not provided
-  //     setHallData({ rows: 5, columns: 8 });
-  //   }
-  // }, [showData]);
-  // useEffect(()=>{console.log('This is show data','hall_id',showData.hall_id, showData.theater_id)},[])
+
+    fetchHallLayout();
+  }, []);
+
+  const handleSelect = (seats: Seat[]) => setSelectedSeats(seats);
+
+  const totalPrice = selectedSeats.length * (Number(showData.price_amount) || 0);
 
   // ======================================================
-  // Seat selection handler
+  // Confirm + TEMP LOCK
   // ======================================================
-  const handleSelect = (seats: Seat[]) => {
-    setSelectedSeats(seats);
-  };
-
-  const totalPrice =
-    selectedSeats.length * (Number(showData.price_amount) || 0); // fallback to 0 if undefined
-
   const handleConfirm = async () => {
-    if (selectedSeats.length === 0) {
-      alert("Please select at least one seat");
+    if (!firstName || !lastName || !email) {
+      alert("Please fill out all personal details.");
       return;
     }
 
-    // ---------------------------
-    // 1) TEMP LOCK REQUEST HERE
-    // ---------------------------
+    if (selectedSeats.length === 0) {
+      alert("Please select at least one seat.");
+      return;
+    }
+
     try {
       const res = await fetch(
         "https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/api/temp-lock",
@@ -101,7 +98,7 @@ export default function CinemaSeatSelection() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             showtimeId: showData.id,
-            seats: selectedSeats,   // row + col
+            seats: selectedSeats,
           }),
         }
       );
@@ -109,21 +106,18 @@ export default function CinemaSeatSelection() {
       const json = await res.json();
 
       if (!json.success) {
-        alert("Some seats were taken by someone else. Please re-select.");
-        return; 
+        alert("Some seats were taken by someone else. Please choose again.");
+        return;
       }
-
-      console.log("Seats locked!", json);
     } catch (err) {
-      console.log("Error locking seats", err);
+      console.error("Seat lock error:", err);
       return;
     }
 
-    // ---------------------------
-    // 2) Move to next page
-    // ---------------------------
     navigate("/checkout", {
       state: {
+        
+        hallId,
         userInfo,
         selectedSeats,
         totalPrice,
@@ -132,7 +126,6 @@ export default function CinemaSeatSelection() {
       },
     });
   };
-
 
   if (!hallData) return <div className="seat-loadingText">Loading hall...</div>;
 
@@ -157,6 +150,41 @@ export default function CinemaSeatSelection() {
         </div>
       </div>
 
+      {/* NEW — User Info Form */}
+      <div className="userInfoBox">
+        <h2>Your Details</h2>
+
+        <div className="inputGroup">
+          <label>First Name</label>
+          <input
+            type="text"
+            placeholder="Enter first name"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+          />
+        </div>
+
+        <div className="inputGroup">
+          <label>Last Name</label>
+          <input
+            type="text"
+            placeholder="Enter last name"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+          />
+        </div>
+
+        <div className="inputGroup">
+          <label>Email</label>
+          <input
+            type="email"
+            placeholder="Enter email address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+      </div>
+
       {/* Cinema Screen */}
       <div className="cinemaGradientBar">← Cinema Screen →</div>
 
@@ -168,7 +196,7 @@ export default function CinemaSeatSelection() {
         onSelect={handleSelect}
       />
 
-      {/* Selected Seats Info */}
+      {/* Selected Seats */}
       <div className="seatSummary">
         <span>
           Selected Seats:{" "}
@@ -179,12 +207,12 @@ export default function CinemaSeatSelection() {
         <span>Total Price: £{totalPrice}</span>
       </div>
 
-      {/* Buy Tickets */}
+      {/* Buy Button */}
       <button className="buyTicketsButton" onClick={handleConfirm}>
         Buy Tickets
       </button>
 
-      {/* Seat Legend */}
+      {/* Legend */}
       <div className="seatLegend">
         <h2>Seat Legend</h2>
         <p><span className="seatLegend-red"></span> Reserved — cannot select</p>
