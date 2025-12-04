@@ -35,8 +35,7 @@ export default function CinemaSeatSelection() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [theaterId, setTheaterId] = useState<number | null>(null);
-
+  
   const userInfo: UserInfo = {
     firstName,
     lastName,
