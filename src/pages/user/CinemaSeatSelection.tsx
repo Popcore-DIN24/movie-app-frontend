@@ -4,9 +4,6 @@ import SeatMap from "./SeatMap";
 import { useState, useEffect } from "react";
 import "./CinemaSeatSelection.css";
 
-// ======================================================
-// Type Definitions
-// ======================================================
 interface Seat {
   row: number;
   col: number;
@@ -18,9 +15,6 @@ interface UserInfo {
   email: string;
 }
 
-// ======================================================
-// Component
-// ======================================================
 export default function CinemaSeatSelection() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -31,68 +25,55 @@ export default function CinemaSeatSelection() {
   const [selectedSeats, setSelectedSeats] = useState<Seat[]>([]);
   const [hallData, setHallData] = useState<{ rows: number; columns: number } | null>(null);
 
-  // For demo purposes, let's hardcode the logged-in user info
+  // Hardcoded user info for demo purposes
   const userInfo: UserInfo = {
     firstName: "John",
     lastName: "Doe",
     email: "john.doe@example.com",
   };
 
-  if (!movieData || !showData) return <div className="seat-loadingText">Loading...</div>;
-
-  // ======================================================
-  // Set hallData from showData
-  // ======================================================
+  // ----------------------------
+  // Fetch hall layout
+  // ----------------------------
   useEffect(() => {
-    async function fetchHallLayoutandCompareID(){
-      try{
-        const response = await fetch(`https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/api/v6/theaters/${showData.theater_id}/halls/${showData.hall_id}`);
+    if (!showData) return;
+
+    async function fetchHallLayout() {
+      try {
+        const response = await fetch(
+          `https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/api/v6/theaters/${showData.theater_id}/halls/${showData.hall_id}`
+        );
         const fetchedHallData = await response.json();
-        if(fetchedHallData.data.seat_layout){
+        if (fetchedHallData.data.seat_layout) {
           setHallData({
             rows: Number(fetchedHallData.data.seat_layout.rows || fetchedHallData.data.seat_layout.row),
             columns: parseInt(fetchedHallData.data.seat_layout.columns || fetchedHallData.data.seat_layout.column),
           });
-          console.log('set hall data from fetched hall data', fetchedHallData.data.seat_layout)
         }
-      }catch(err){console.log('error fetching hall layout', err)}
+      } catch (err) {
+        console.log("error fetching hall layout", err);
+      }
     }
-    fetchHallLayoutandCompareID();
-  },[ ])
-  // useEffect(() => {
-  //   if (showData?.seat_layout) {
-  //     setHallData({
-  //       rows: showData.seat_layout.rows,
-  //       columns: showData.seat_layout.columns,
-        
-  //     });
-  //     console.log('set hall data from show data', showData.seat_layout)
-  //   } else {
-  //     // Default layout if not provided
-  //     setHallData({ rows: 5, columns: 8 });
-  //   }
-  // }, [showData]);
-  // useEffect(()=>{console.log('This is show data','hall_id',showData.hall_id, showData.theater_id)},[])
 
-  // ======================================================
+    fetchHallLayout();
+  }, [showData]);
+
+  // ----------------------------
   // Seat selection handler
-  // ======================================================
+  // ----------------------------
   const handleSelect = (seats: Seat[]) => {
     setSelectedSeats(seats);
   };
 
-  const totalPrice =
-    selectedSeats.length * (Number(showData.price_amount) || 0); // fallback to 0 if undefined
+  const totalPrice = selectedSeats.length * (Number(showData?.price_amount) || 0);
 
   const handleConfirm = async () => {
+    if (!showData) return;
     if (selectedSeats.length === 0) {
       alert("Please select at least one seat");
       return;
     }
 
-    // ---------------------------
-    // 1) TEMP LOCK REQUEST HERE
-    // ---------------------------
     try {
       const res = await fetch(
         "https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/api/temp-lock",
@@ -101,7 +82,7 @@ export default function CinemaSeatSelection() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             showtimeId: showData.id,
-            seats: selectedSeats,   // row + col
+            seats: selectedSeats,
           }),
         }
       );
@@ -110,18 +91,13 @@ export default function CinemaSeatSelection() {
 
       if (!json.success) {
         alert("Some seats were taken by someone else. Please re-select.");
-        return; 
+        return;
       }
-
-      console.log("Seats locked!", json);
     } catch (err) {
       console.log("Error locking seats", err);
       return;
     }
 
-    // ---------------------------
-    // 2) Move to next page
-    // ---------------------------
     navigate("/checkout", {
       state: {
         userInfo,
@@ -133,12 +109,56 @@ export default function CinemaSeatSelection() {
     });
   };
 
+  // ----------------------------
+  // Timer logic (clears selection and reloads page)
+  // ----------------------------
+  useEffect(() => {
+    if (selectedSeats.length === 0) return;
 
+    let totalSeconds = 10 * 60; // 10 دقیقه کل
+    const warningToast = document.getElementById("reservationWarning");
+    const timerEl = document.getElementById("countdownTimer");
+
+    if (!warningToast || !timerEl) return;
+
+    warningToast.classList.add("hidden"); // ابتدا مخفی
+
+    const interval = setInterval(() => {
+      totalSeconds--;
+
+      if (totalSeconds === 2 * 60) {
+        warningToast.classList.remove("hidden"); // وقتی 2 دقیقه مانده پیام نمایش داده شود
+      }
+
+      if (!warningToast.classList.contains("hidden")) {
+        const min = Math.floor(totalSeconds / 60);
+        const sec = totalSeconds % 60;
+        timerEl.textContent = `${min}:${sec < 10 ? "0" + sec : sec}`;
+      }
+
+      if (totalSeconds <= 0) {
+        clearInterval(interval);
+        warningToast.innerHTML = "⏳ Your reservation has expired. Resetting...";
+
+        setSelectedSeats([]); // پاک کردن صندلی‌ها
+        setTimeout(() => {
+          window.location.reload(); // ریست کامل صفحه
+        }, 1500);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [selectedSeats]);
+
+  // ----------------------------
+  // Conditional Rendering
+  // ----------------------------
+  if (!movieData || !showData) return <div className="seat-loadingText">Loading movie/show...</div>;
   if (!hallData) return <div className="seat-loadingText">Loading hall...</div>;
 
-  // ======================================================
+  // ----------------------------
   // Render
-  // ======================================================
+  // ----------------------------
   return (
     <div className="seat-cinemaRoot">
       <Navbar />
@@ -157,7 +177,6 @@ export default function CinemaSeatSelection() {
         </div>
       </div>
 
-      {/* Cinema Screen */}
       <div className="cinemaGradientBar">← Cinema Screen →</div>
 
       {/* Seat Map */}
@@ -171,8 +190,7 @@ export default function CinemaSeatSelection() {
       {/* Selected Seats Info */}
       <div className="seatSummary">
         <span>
-          Selected Seats:{" "}
-          {selectedSeats.length > 0
+          Selected Seats: {selectedSeats.length > 0
             ? selectedSeats.map(s => `${String.fromCharCode(65 + s.row)}${s.col + 1}`).join(", ")
             : "None"}
         </span>
@@ -190,6 +208,13 @@ export default function CinemaSeatSelection() {
         <p><span className="seatLegend-red"></span> Reserved — cannot select</p>
         <p><span className="seatLegend-green"></span> Your Selection — click again to remove</p>
         <p className="tip">Selected seats are final and cannot be changed after booking.</p>
+      </div>
+
+      {/* Reservation Warning */}
+      <div id="reservationWarning" className="reservationToast hidden">
+        <p>
+          Your seat reservation will expire in <span id="countdownTimer">2:00</span> minutes. Please complete your purchase to keep your selected seats.
+        </p>
       </div>
     </div>
   );

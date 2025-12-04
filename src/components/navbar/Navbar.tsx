@@ -148,7 +148,6 @@ export default function Navbar() {
         isOpen={searchModalOpen}
         onClose={() => setSearchModalOpen(false)}
         onSearch={handleSearch}
-        data-testid="search-modal"
       />
 
     </nav>

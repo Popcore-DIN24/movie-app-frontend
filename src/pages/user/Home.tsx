@@ -206,6 +206,7 @@ export default function Home(): React.JSX.Element {
             <button
               key={key}
               className={styles.categoryBtn}
+              data-testid={`category-btn-${key}`}
               onClick={() => scrollToCategory(key)}
             >
               {t(`category.${key}`)}
