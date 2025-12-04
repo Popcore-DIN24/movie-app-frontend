@@ -109,7 +109,7 @@ const SuccessfulPage = () => {
         <p><strong>Payment Status:</strong> {session.payment_status}</p>
         <p>
           <strong>Amount:</strong>{" "}
-          {(session.amount_total).toFixed(2)}{" "}
+          {(session.amount_total / 100).toFixed(2)}{" "}
           {session.currency?.toUpperCase()}
         </p>
         <p><strong>Customer Email:</strong> {session.customer_email}</p>
