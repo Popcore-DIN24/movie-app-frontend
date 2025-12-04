@@ -6,23 +6,25 @@ import CheckoutForm from "../../components/CheckoutForm";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
-// interface Seat {
-//   row: number;
-//   col: number;
-// }
+interface Seat {
+  row: number;
+  col: number;
+}
 
-// interface UserInfo {
-//   firstName: string;
-//   lastName: string;
-//   email: string;
-// }
+interface UserInfo {
+  firstName: string;
+  lastName: string;
+  email: string;
+}
 
 export default function CheckoutPage() {
   const location = useLocation();
   const navigate = useNavigate();
 
   // Extract state sent from CinemaSeatSelection
-  const { userInfo, selectedSeats, totalPrice, movie, show } = location.state || {};
+  const { userInfo,hallId, selectedSeats , totalPrice, movie, show } = location.state || {};
+  const userInformation: UserInfo = userInfo;
+  const seats : Seat[] = selectedSeats;
 
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -33,13 +35,13 @@ export default function CheckoutPage() {
       alert("Missing booking information. Redirecting to movie page.");
       navigate("/");
     }
-  }, [userInfo, selectedSeats, totalPrice, movie, show, navigate]);
+  }, [userInformation, seats, totalPrice, movie, show, navigate]);
 
   // ========================================================
   // Fetch Stripe client_secret from backend
   // ========================================================
   useEffect(() => {
-    if (!userInfo || !selectedSeats || !totalPrice || !movie || !show) return;
+    if (!userInformation || !seats || !totalPrice || !movie || !show) return;
 
     const createSession = async () => {
       try {
@@ -50,11 +52,15 @@ export default function CheckoutPage() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               price_amount: totalPrice,
-              customer_email: userInfo.email,
+              customer_email: userInformation.email,
+              customer_first_name: userInformation.firstName,
+              customer_last_name: userInformation.lastName,
               movieName: movie.title,
-              quantity: selectedSeats.length,
-              seats: selectedSeats,
+              quantity: seats.length,
+              seats: seats,
               showtime_id: show.id,
+              hallId:hallId,
+              theaterId: show.theater_id,  
             }),
           }
         );
@@ -85,7 +91,8 @@ export default function CheckoutPage() {
       }}
     >
       <CheckoutForm
-        seats={selectedSeats}
+        userInfo={userInformation}
+        seats={seats}
         movie={movie}
         show={show}
         totalPrice={totalPrice}

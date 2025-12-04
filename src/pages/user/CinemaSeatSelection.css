@@ -311,6 +311,38 @@
 .closeButton:hover {
   background: #4b5563;
 }
+.userInfoBox {
+  background: #1a1a1a;
+  padding: 20px;
+  border-radius: 12px;
+  margin: 20px 0;
+  color: white;
+}
+
+.userInfoBox h2 {
+  margin-bottom: 12px;
+  font-size: 20px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+}
+
+.inputGroup label {
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.inputGroup input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #444;
+  background: #222;
+  color: white;
+}
+
 
 /* ================================
    ★ ANIMATIONS
