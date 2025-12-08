@@ -1,0 +1,65 @@
+/* --- Background --- */
+.login-container {
+  width: 100%;
+  height: 100vh;
+  background-image: url("../../assets/images/login.jpg");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* --- Login Box --- */
+.login-box {
+  width: 380px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  color: rgb(15, 2, 51);
+  margin-top: -120px;
+}
+
+.login-box h2 {
+  text-align: center;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+/* --- Inputs --- */
+.login-box input {
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  font-size: 20px;
+}
+
+.login-box input:focus {
+  box-shadow: 0 0 5px #66aaff;
+}
+
+/* --- Submit Button --- */
+.login-box button {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #02244b;
+  color: white;
+  font-size: 16px;
+  transition: 0.2s;
+}
+
+.login-box button:hover {
+  background-color: #005fcc;
+}
+
+/* --- Message --- */
+.msg {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #ffdd66;
+}

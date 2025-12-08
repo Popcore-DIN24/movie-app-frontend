@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { useParams, useLocation , useNavigate} from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import "./MovieDetails.css";
 
-// Movie interface
 interface Movie {
   id: number;
   title: string;
@@ -13,7 +13,6 @@ interface Movie {
   release_date: string;
 }
 
-// Showtime interface
 interface Showtime {
   id: number;
   theater_city: string;
@@ -28,6 +27,7 @@ export default function MovieDetails() {
   const { id } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
 
   const params = new URLSearchParams(location.search);
   const initialCity = params.get("city") || "";
@@ -36,15 +36,14 @@ export default function MovieDetails() {
   const [showTimes, setShowTimes] = useState<Showtime[]>([]);
   const [cities, setCities] = useState<string[]>([]);
   const [dates, setDates] = useState<string[]>([]);
-
   const [selectedCity, setSelectedCity] = useState(initialCity);
   const [selectedDate, setSelectedDate] = useState("");
-
   const [filteredShows, setFilteredShows] = useState<Showtime[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch cities for dropdown
+  const currentLang = i18n.language;
+
   useEffect(() => {
     const fetchCities = async () => {
       try {
@@ -60,12 +59,10 @@ export default function MovieDetails() {
           ),
         ];
         setCities(cityList);
-
-        // **Fix for initialCity selection**
         if (initialCity && cityList.includes(initialCity)) {
           setSelectedCity(initialCity);
         } else if (cityList.length > 0) {
-          setSelectedCity(cityList[0]); // fallback to first city
+          setSelectedCity(cityList[0]);
         }
       } catch (err: any) {
         console.error("Failed to load cities:", err.message);
@@ -74,16 +71,20 @@ export default function MovieDetails() {
     fetchCities();
   }, [initialCity]);
 
-  // Fetch movie and showtimes using the new "movies/scheduled" endpoint
   useEffect(() => {
     const fetchMovieAndShows = async () => {
       try {
+        const apiLangMap: any = {
+          en: "en-US",
+          fi: "fi-FI",
+        };
+        const apiLang = apiLangMap[currentLang] || "en-US";
+
         const response = await fetch(
-          "https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/api/v6/movies/scheduled"
+          `https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/api/v6/movies/scheduled?lang=${apiLang}`
         );
         const data = await response.json();
 
-        // Find the selected movie by ID
         const selected = data.find((m: any) => m.id === Number(id));
 
         if (!selected) {
@@ -92,7 +93,6 @@ export default function MovieDetails() {
           return;
         }
 
-        // Set movie data
         setMovie({
           id: selected.id,
           title: selected.title,
@@ -103,7 +103,6 @@ export default function MovieDetails() {
           release_date: selected.release_date,
         });
 
-        // Extract and enrich showtimes
         const enrichedShows: Showtime[] = (selected.showtimes || []).map((s: any) => ({
           id: s.id,
           theater_city: s.theater_city,
@@ -116,11 +115,8 @@ export default function MovieDetails() {
 
         setShowTimes(enrichedShows);
 
-        // Extract unique dates from showtimes
         const dateList = [
-          ...new Set(
-            enrichedShows.map((s) => new Date(s.start_time).toISOString().split("T")[0])
-          ),
+          ...new Set(enrichedShows.map((s) => new Date(s.start_time).toISOString().split("T")[0])),
         ];
         setDates(dateList);
 
@@ -130,49 +126,31 @@ export default function MovieDetails() {
       }
       setLoading(false);
     };
-    
-
     fetchMovieAndShows();
-  }, [id]);
+  }, [id, currentLang]);
 
-  useEffect(() => {console.log('filtered',filteredShows);}, [filteredShows]);
-
-  // Filter showtimes based on selected city and date
   useEffect(() => {
     let result = [...showTimes];
-
     if (selectedCity) {
       result = result.filter(
-        (s) =>
-          s.theater_city &&
-          s.theater_city.toLowerCase() === selectedCity.toLowerCase()
+        (s) => s.theater_city && s.theater_city.toLowerCase() === selectedCity.toLowerCase()
       );
     }
-
     if (selectedDate) {
-      result = result.filter((s) => {
-        const d = new Date(s.start_time).toISOString().split("T")[0];
-        return d === selectedDate;
-      });
+      result = result.filter((s) => new Date(s.start_time).toISOString().split("T")[0] === selectedDate);
     }
-
     setFilteredShows(result);
   }, [selectedCity, selectedDate, showTimes]);
 
-  if (loading) return <div className="movieDetailsRoot">Loading...</div>;
+  if (loading) return <div className="movieDetailsRoot">{t("loading")}</div>;
   if (error) return <div className="movieDetailsRoot">{error}</div>;
   if (!movie) return <div className="movieDetailsRoot">No movie found</div>;
-  // function nav(){
-  //   navigate(`/checkout`)
-  // }
 
-  // Navigate to seat selection page
   const goToSeatSelection = (show: Showtime) => {
     if (!show.theater_id || !show.hall_id) {
       console.error("Theater or Hall ID is missing");
       return;
     }
-
     navigate(`/movie/${movie.id}/showtime/${show.id}/seats`, {
       state: { movie, show },
     });
@@ -182,85 +160,46 @@ export default function MovieDetails() {
     <div className="movieDetailsRoot">
       <h1 className="movieTitle">{movie.title}</h1>
 
-      {movie.poster_url && (
-        <img className="moviePoster" src={movie.poster_url} alt={movie.title} />
-      )}
+      {movie.poster_url && <img className="moviePoster" src={movie.poster_url} alt={movie.title} />}
 
       <div className="movieInfo">
         <p>{movie.description}</p>
-        <p><strong>Genre:</strong> {movie.genre}</p>
-        <p><strong>Duration:</strong> {movie.duration} min</p>
+        <p><strong>{t("genre")}:</strong> {movie.genre}</p>
+        <p><strong>{t("duration")}:</strong> {movie.duration} min</p>
+        <p className="releaseDate">{t("release")}: {new Date(movie.release_date).toLocaleDateString()}</p>
 
-        <p className="releaseDate">
-          Release: {new Date(movie.release_date).toLocaleDateString()}
-        </p>
-
-        {/* City dropdown */}
         <div className="dropdownGroup">
-          <label>City:</label>
-          <select
-            value={selectedCity}
-            onChange={(e) => setSelectedCity(e.target.value)}
-          >
-            {cities.map((city, i) => (
-              <option key={i} value={city}>
-                {city}
-              </option>
-            ))}
+          <label>{t("city")}:</label>
+          <select value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)}>
+            {cities.map((city, i) => <option key={i} value={city}>{city}</option>)}
           </select>
         </div>
 
-        {/* Date dropdown */}
         <div className="dropdownGroup">
-          <label>Date:</label>
-          <select
-            value={selectedDate}
-            onChange={(e) => setSelectedDate(e.target.value)}
-          >
-            <option value="">All</option>
-            {dates.map((date, i) => (
-              <option key={i} value={date}>
-                {new Date(date).toLocaleDateString()}
-              </option>
-            ))}
+          <label>{t("date")}:</label>
+          <select value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)}>
+            <option value="">{t("all") || "All"}</option>
+            {dates.map((date, i) => <option key={i} value={date}>{new Date(date).toLocaleDateString()}</option>)}
           </select>
         </div>
 
-        {/* Showtimes section */}
         <div className="showTimesSection">
-          <h2>Showtimes</h2>
-
+          <h2>{t("showtimes")}</h2>
           {filteredShows.length === 0 ? (
-            <p>No showtimes found</p>
+            <p>{t("noShowtimes")}</p>
           ) : (
             filteredShows.map((show) => (
-              <div
-                key={show.id}
-                className="showCard"
-                onClick={() => goToSeatSelection(show)}
-                style={{ cursor: "pointer" }}
-              >
+              <div key={show.id} className="showCard" onClick={() => goToSeatSelection(show)} style={{ cursor: "pointer" }}>
+                <div><strong>{new Date(show.start_time).toLocaleDateString()}</strong></div>
                 <div>
-                  <strong>
-                    {new Date(show.start_time).toLocaleDateString()}
-                  </strong>
-                </div>
-                <div>
-                  {new Date(show.start_time).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
+                  {new Date(show.start_time).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                   {" - "}
-                  {new Date(show.end_time).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
+                  {new Date(show.end_time).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                 </div>
                 <div className="price">${show.price_amount}</div>
               </div>
             ))
           )}
-          
         </div>
       </div>
     </div>

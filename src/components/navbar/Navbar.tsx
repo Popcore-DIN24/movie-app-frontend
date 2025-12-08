@@ -136,7 +136,7 @@ export default function Navbar() {
 
           {userMenuOpen && (
             <ul className="user-dropdown-menu" data-testid="user-dropdown">
-              <li><Link to="/signin">{t("nav.signIn")}</Link></li>
+              <li><Link to="/Login">{t("nav.signIn")}</Link></li>
               <li><Link to="/signup">{t("nav.signUp")}</Link></li>
             </ul>
           )}

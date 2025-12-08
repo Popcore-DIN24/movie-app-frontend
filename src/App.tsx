@@ -10,6 +10,7 @@ import MovieDetails from "./pages/user/MovieDetails";
 import CinemaSeatSelection from './pages/user/CinemaSeatSelection';
 import CheckoutPage from './pages/user/CheckoutPage';
 import SuccessfulPayment from './pages/user/SuccessfulPayment';
+import Register from './pages/user/Register';
 import "./i18n";
 
 
@@ -47,6 +48,9 @@ function App() {
         },{
           path:"/success",
           element:<SuccessfulPayment/>
+        },{
+          path:"/signup",
+          element:<Register/>
         }
 
 
