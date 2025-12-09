@@ -231,6 +231,23 @@
   color: #f39c12;
 }
 
+.theme-toggle-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  transition: background 0.3s;
+  color: #ffffff;
+  width: 52px;
+  height: 52px;
+}
+
+.theme-toggle-btn:hover {
+  background: rgba(255,255,255,0.1); 
+}
+
+
 
 /* =============== DESKTOP VIEW =============== */
 @media (min-width: 768px) {
@@ -293,4 +310,66 @@
     text-align: left;  
     margin-right: 2rem; 
   }
+}
+
+
+/* Navbar Light Mode */
+.navbar.light {
+  background-color: #444bac; 
+  color: #222;
+  background-image: url("../../assets/images/navbarLight.jpg"); 
+}
+.navbar.light .navbar__links {
+  background-color: #cedee0; 
+
+}
+
+/* Navigation Links */
+.navbar.light .navbar__links a {
+  color: #222;
+}
+
+.navbar.light .navbar__links a:hover {
+  color: #f39c12;
+}
+
+/* Dropdown menus */
+.navbar.light .dropdown-menu {
+  background-color: #ffffff;
+  color: #222;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.navbar.light .dropdown-menu a {
+  color: #222;
+}
+
+.navbar.light .dropdown-menu a:hover {
+  color: #f39c12;
+  background-color: rgba(0,0,0,0.05);
+}
+
+/* User Dropdown */
+.navbar.light .user-dropdown-menu {
+  background-color: #ffffff;
+  color: #222;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.navbar.light .user-dropdown-menu a {
+  color: #222;
+}
+
+.navbar.light .user-dropdown-menu a:hover {
+  background-color: rgba(0,0,0,0.05);
+  color: #f39c12;
+}
+
+/* Theme Toggle Button */
+.navbar.light .theme-toggle-btn {
+  color: #222;
+}
+
+.navbar.light .theme-toggle-btn:hover {
+  background: rgba(0,0,0,0.05);
 }

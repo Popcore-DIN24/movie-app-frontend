@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./Movies.css"; // optional CSS for styling
+import "./Movies.css";
 
 interface Movie {
   id: number;
@@ -21,7 +21,7 @@ export default function Movies() {
       setLoading(true);
       try {
         const res = await fetch(
-          "https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/api/v6/movies"
+          "https://wdfinpopcorebackend-fyfuhuambrfnc3hz.swedencentral-01.azurewebsites.net/api/v6/movies"
         );
         if (!res.ok) throw new Error("Failed to fetch movies");
         const data: Movie[] = await res.json();

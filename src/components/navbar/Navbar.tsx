@@ -6,9 +6,9 @@ import menuIcon from "../../assets/icons/menu-burger.svg";
 import searchIcon from "../../assets/icons/search.svg";
 import userIcon from "../../assets/icons/user.svg";
 import logoImg from "../../assets/icons/logo.png";
+import { FaSun, FaMoon } from "react-icons/fa";
 
 import { useTranslation } from "react-i18next";
-
 import SearchModal from "./SearchModal";
 
 export default function Navbar() {
@@ -27,6 +27,23 @@ export default function Navbar() {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
 
+  // ------------------ THEME STATE ------------------
+  const [theme, setTheme] = useState<string>("dark");
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme") || "dark";
+    setTheme(savedTheme);
+    document.body.className = savedTheme;
+  }, []);
+
+  const toggleTheme = () => {
+    const newTheme = theme === "dark" ? "light" : "dark";
+    setTheme(newTheme);
+    document.body.className = newTheme;
+    localStorage.setItem("theme", newTheme);
+  };
+
+  // ------------------ CLICK OUTSIDE ------------------
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (navbarRef.current && !navbarRef.current.contains(e.target as Node)) {
@@ -51,7 +68,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="navbar" ref={navbarRef} data-testid="navbar">
+    <nav className={`navbar ${theme}`} ref={navbarRef} data-testid="navbar">
 
       {/* Menu icon (mobile) */}
       <div className="navbar__menu" onClick={() => setMenuOpen(!menuOpen)} data-testid="mobile-menu">
@@ -111,6 +128,11 @@ export default function Navbar() {
             </li>
           </ul>
         </li>
+
+        {/* Theme Toggle */}
+        <button className="theme-toggle-btn" onClick={toggleTheme}>
+          {theme === "dark" ? <FaSun /> : <FaMoon />}
+        </button>
       </ul>
 
       {/* Right section (search + user menu) */}
@@ -125,7 +147,7 @@ export default function Navbar() {
         />
 
         {/* User dropdown */}
-        <div className="user-dropdown">
+        <div className="user-dropdown" ref={userMenuRef}>
           <button
             className="user-btn"
             onClick={() => setUserMenuOpen(!userMenuOpen)}

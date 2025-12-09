@@ -29,7 +29,7 @@ export default function SeatMap({
     const fetchReservedSeats = async () => {
       try {
         const res = await fetch(
-          `https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/api/v6/showtimes/${showtimeId}/seats`
+          `https://wdfinpopcorebackend-fyfuhuambrfnc3hz.swedencentral-01.azurewebsites.net/api/v6/showtimes/${showtimeId}/seats`
         );
         const json = await res.json();
         setReservedSeats(

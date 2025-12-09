@@ -46,7 +46,7 @@ export default function CinemaSeatSelection() {
     async function fetchHallLayout() {
       try {
         const response = await fetch(
-          `https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/api/v6/theaters/${showData.theater_id}/halls/${showData.hall_id}`
+          `https://wdfinpopcorebackend-fyfuhuambrfnc3hz.swedencentral-01.azurewebsites.net/api/v6/theaters/${showData.theater_id}/halls/${showData.hall_id}`
         );
         const json = await response.json();
 
@@ -85,7 +85,7 @@ export default function CinemaSeatSelection() {
 
     try {
       const res = await fetch(
-        "https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/api/temp-lock",
+        "https://wdfinpopcorebackend-fyfuhuambrfnc3hz.swedencentral-01.azurewebsites.net/api/temp-lock",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -127,19 +127,19 @@ export default function CinemaSeatSelection() {
   useEffect(() => {
     if (selectedSeats.length === 0) return;
 
-    let totalSeconds = 10 * 60; // 10 دقیقه کل
+    let totalSeconds = 10 * 60; 
     const warningToast = document.getElementById("reservationWarning");
     const timerEl = document.getElementById("countdownTimer");
 
     if (!warningToast || !timerEl) return;
 
-    warningToast.classList.add("hidden"); // ابتدا مخفی
+    warningToast.classList.add("hidden"); 
 
     const interval = setInterval(() => {
       totalSeconds--;
 
       if (totalSeconds === 2 * 60) {
-        warningToast.classList.remove("hidden"); // وقتی 2 دقیقه مانده پیام نمایش داده شود
+        warningToast.classList.remove("hidden"); 
       }
 
       if (!warningToast.classList.contains("hidden")) {
@@ -150,11 +150,11 @@ export default function CinemaSeatSelection() {
 
       if (totalSeconds <= 0) {
         clearInterval(interval);
-        warningToast.innerHTML = "⏳ Your reservation has expired. Resetting...";
+        warningToast.innerHTML = "Your reservation has expired. Resetting...";
 
-        setSelectedSeats([]); // پاک کردن صندلی‌ها
+        setSelectedSeats([]); 
         setTimeout(() => {
-          window.location.reload(); // ریست کامل صفحه
+          window.location.reload(); 
         }, 1500);
       }
     }, 1000);

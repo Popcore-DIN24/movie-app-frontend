@@ -216,3 +216,42 @@
     height: 400px; 
   }
 }
+
+
+/* ========== Light Mode ========== */
+
+:global(body.light) .pageRoot {
+  background: #f0f4f8 !important;
+  color: #070125 !important;
+}
+
+:global(body.light) .citySelectorWrapper {
+  background-color: #ffffff;
+  color: #222;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+:global(body.light) .citySelector {
+  color: #222;
+}
+
+:global(body.light) .carouselBtn {
+  background: rgba(0,0,0,0.2);
+  color: #222;
+}
+
+:global(body.light) .carouselBtn:hover {
+  background: rgba(0,0,0,0.1);
+}
+
+:global(body.light) .categoryBtn {
+  color: #222;
+}
+
+:global(body.light) .rowTitle {
+  color: #00032e;
+}
+
+:global(body.light) .rowCard img {
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}

@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import "./register.css";
+import { useTranslation } from "react-i18next";
 
 const Register: React.FC = () => {
+  const { t } = useTranslation();
+
   const [formData, setFormData] = useState({
     full_name: "",
     email: "",
@@ -21,25 +24,25 @@ const Register: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const response = await fetch("http://localhost:3001/register", {
+    const response = await fetch("https://wdfinpopcorebackend-fyfuhuambrfnc3hz.swedencentral-01.azurewebsites.net/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
     });
 
     const data = await response.json();
-    setMessage(data.message || "Registration completed");
+    setMessage(data.message || t("register.defaultSuccess"));
   };
 
   return (
     <div className="register-container">
       <form className="register-box" onSubmit={handleSubmit}>
-        <h2>Create Account</h2>
+        <h2>{t("register.title")}</h2>
 
         <input
           type="text"
           name="full_name"
-          placeholder="Full Name"
+          placeholder={t("register.fullName")}
           value={formData.full_name}
           onChange={handleChange}
           required
@@ -48,17 +51,16 @@ const Register: React.FC = () => {
         <input
           type="email"
           name="email"
-          placeholder="Email Address"
+          placeholder={t("register.email")}
           value={formData.email}
           onChange={handleChange}
           required
         />
 
-        {/* Phone is optional */}
         <input
           type="text"
           name="phone"
-          placeholder="Phone (optional)"
+          placeholder={t("register.phoneOptional")}
           value={formData.phone}
           onChange={handleChange}
         />
@@ -66,13 +68,13 @@ const Register: React.FC = () => {
         <input
           type="password"
           name="password"
-          placeholder="Password"
+          placeholder={t("register.password")}
           value={formData.password}
           onChange={handleChange}
           required
         />
 
-        <button type="submit">Register</button>
+        <button type="submit">{t("register.button")}</button>
 
         {message && <p className="msg">{message}</p>}
       </form>

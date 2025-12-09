@@ -12,6 +12,7 @@ import CheckoutPage from './pages/user/CheckoutPage';
 import SuccessfulPayment from './pages/user/SuccessfulPayment';
 import Register from './pages/user/Register';
 import "./i18n";
+import { ThemeProvider } from "./ThemeContext";
 
 
 function App() {
@@ -59,7 +60,9 @@ function App() {
   ]);
 
    return (
-    <RouterProvider router={router} />
+    <ThemeProvider>
+      <RouterProvider router={router} />
+    </ThemeProvider>
   );
 
  

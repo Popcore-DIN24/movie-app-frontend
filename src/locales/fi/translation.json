@@ -34,7 +34,35 @@
   "cinema": "Elokuvateatteri",
   "search": "Etsi",
   "close": "Sulje"
-}
+},
+"movieDetails": {
+  "loading": "Ladataan...",
+  "genre": "Genre",
+  "duration": "Kesto",
+  "release": "Julkaisu",
+  "city": "Kaupunki",
+  "date": "Päivämäärä",
+  "all": "Kaikki",
+  "showtimes": "Näytösajat",
+  "noShowtimes": "Näytösaikoja ei löytynyt",
+  "buyTickets": "Osta liput"
+},
+"login": {
+    "title": "Kirjaudu sisään",
+    "email": "Sähköpostiosoite",
+    "password": "Salasana",
+    "button": "Kirjaudu",
+    "defaultSuccess": "Kirjautuminen onnistui"
+  },
+  "register": {
+    "title": "Luo tili",
+    "fullName": "Koko nimi",
+    "email": "Sähköpostiosoite",
+    "phoneOptional": "Puhelin (valinnainen)",
+    "password": "Salasana",
+    "button": "Rekisteröidy",
+    "defaultSuccess": "Rekisteröinti onnistui"
+  }
 
 }
 
