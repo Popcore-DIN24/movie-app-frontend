@@ -4,6 +4,7 @@ import Footer from "../../components/Footer";
 import styles from "./Home.module.css";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { useTheme } from "../../ThemeContext";
 
 type CategoryKey =
   | "action"
@@ -31,10 +32,10 @@ interface ScheduledMovie {
 
 export default function Home(): React.JSX.Element {
   const { t } = useTranslation();
-
+  
   const [selectedCity, setSelectedCity] = useState<string>("");
   const [movies, setMovies] = useState<ScheduledMovie[]>([]);
-
+  const { theme } = useTheme();
   const scrollerRef = useRef<HTMLDivElement | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -93,19 +94,28 @@ export default function Home(): React.JSX.Element {
       behavior: "smooth",
     });
   };
+  useEffect(() => {
+  if (theme === "light") {
+    document.body.classList.add("light");
+    document.body.classList.remove("dark");
+  } else {
+    document.body.classList.add("dark");
+    document.body.classList.remove("light");
+  }
+}, [theme]);
 
   useEffect(() => {
     const fetchMovies = async () => {
       try {
         const response = await fetch(
-          "https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/api/v6/movies/scheduled"
+          "https://wdfinpopcorebackend-fyfuhuambrfnc3hz.swedencentral-01.azurewebsites.net/api/v6/movies/scheduled"
         );
         if (!response.ok) throw new Error("Failed to fetch movies");
 
         const data: ScheduledMovie[] = await response.json();
         setMovies(data);
       } catch (error) {
-        console.error("❌ Error fetching movies:", error);
+        console.error("Error fetching movies:", error);
       }
     };
 
@@ -143,7 +153,8 @@ export default function Home(): React.JSX.Element {
   });
 
   return (
-    <div className={styles.pageRoot} data-testid="home-page">
+  <div className={styles.pageRoot} data-testid="home-page">
+
       <Navbar />
 
       <div className={styles.heroWrapper}>
@@ -215,7 +226,7 @@ export default function Home(): React.JSX.Element {
         </div>
       </section>
 
-      {/* 🔥 MOVIE ROWS */}
+      {/* MOVIE ROWS */}
       <section className={styles.movieRows}>
         {categories.map((key) => (
           <div key={key} className={styles.movieRowWrapper}>

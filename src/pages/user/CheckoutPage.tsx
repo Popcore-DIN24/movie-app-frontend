@@ -46,7 +46,7 @@ export default function CheckoutPage() {
     const createSession = async () => {
       try {
         const res = await fetch(
-          "https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/create-checkout-session",
+          "https://wdfinpopcorebackend-fyfuhuambrfnc3hz.swedencentral-01.azurewebsites.net/create-checkout-session",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },

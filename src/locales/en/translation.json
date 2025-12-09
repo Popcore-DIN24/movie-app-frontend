@@ -34,6 +34,33 @@
   "cinema": "Cinema",
   "search": "Search",
   "close": "Close"
-}
-
+},
+"movieDetails": {
+  "loading": "Loading...",
+  "genre": "Genre",
+  "duration": "Duration",
+  "release": "Release",
+  "city": "City",
+  "date": "Date",
+  "all": "All",
+  "showtimes": "Showtimes",
+  "noShowtimes": "No showtimes found",
+  "buyTickets": "Buy Tickets"
+},
+"login": {
+    "title": "Login",
+    "email": "Email Address",
+    "password": "Password",
+    "button": "Login",
+    "defaultSuccess": "Login completed"
+},
+"register": {
+    "title": "Create Account",
+    "fullName": "Full Name",
+    "email": "Email Address",
+    "phoneOptional": "Phone (optional)",
+    "password": "Password",
+    "button": "Register",
+    "defaultSuccess": "Registration completed"
+  }
 }

@@ -35,7 +35,7 @@ const SuccessfulPage = () => {
       async function fetchSession() {
         try {
           const res = await fetch(
-            `https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/session-status?session_id=${sessionId}`
+            `https://wdfinpopcorebackend-fyfuhuambrfnc3hz.swedencentral-01.azurewebsites.net/session-status?session_id=${sessionId}`
           );
           const data = await res.json();
           console.log("Session data:", data);
@@ -54,13 +54,13 @@ const SuccessfulPage = () => {
     }
   }, [sessionId]);
 
-  // 📄 Generate Ticket PDF
+  //Generate Ticket PDF
   const generatePDF = () => {
     if (!session || !session.tickets) return;
 
     const doc = new jsPDF();
     doc.setFontSize(18);
-    doc.text("🎟️ Movie Ticket", 20, 20);
+    doc.text("Movie Ticket", 20, 20);
 
     doc.setFontSize(12);
     doc.text(`Email: ${session.customer_email}`, 20, 50);
@@ -78,7 +78,7 @@ const SuccessfulPage = () => {
       }
 
       y += 80;
-      if (y > 250) { // Start a new page if needed
+      if (y > 250) { 
         doc.addPage();
         y = 20;
       }
