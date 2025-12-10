@@ -181,3 +181,72 @@
     text-align: center;
   }
 }
+
+
+/* -----------------------------------------
+   LIGHT MODE  (global because using body.light)
+------------------------------------------*/
+
+body.light .movieDetailsRoot {
+  background: #f5f7fa;
+  color: #1a1a1a;
+}
+
+body.light .movieInfo {
+  background: #ffffff;
+  color: #1a1a1a;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+body.light .movieTitle {
+  color: #222;
+}
+
+body.light .moviePoster {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+body.light .dropdownGroup label {
+  color: #333;
+}
+
+body.light .dropdownGroup select {
+  background: #ffffff;
+  color: #000;
+  border: 1px solid #ccc;
+}
+
+body.light .showCard {
+  background: #ffffff;
+  color: #1a1a1a;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+body.light .showCard:hover {
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+
+body.light .showDate {
+  color: #0066cc;
+}
+
+body.light .showTime {
+  color: #444;
+}
+
+body.light .showPrice {
+  color: #cc0000;
+}
+
+body.light .showTimesSection h2 {
+  color: #0066cc;
+}
+
+body.light .buyButton {
+  background: #007bff;
+  color: #fff;
+}
+
+body.light .buyButton:hover {
+  background: #0056b3;
+}

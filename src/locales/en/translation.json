@@ -62,5 +62,24 @@
     "password": "Password",
     "button": "Register",
     "defaultSuccess": "Registration completed"
+  },
+  "seat": {
+    "details": "Your Details",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "pricePerSeat": "Price per seat",
+    "selectedSeats": "Selected Seats",
+    "totalPrice": "Total Price",
+    "buyTickets": "Buy Tickets",
+    "loading": "Loading...",
+    "screen": "Cinema Screen",
+    "legendTitle": "Seat Legend",
+    "legendReserved": "Reserved — cannot select",
+    "legendYourSelection": "Your selection — click again to remove",
+    "legendFinal": "Selected seats are final and cannot be changed after booking.",
+    "reservationExpire": "Your seat reservation will expire in",
+    "reservationExpired": "Your reservation has expired. Resetting..."
   }
+
 }

@@ -96,13 +96,14 @@ export default function Navbar() {
         >
           <span className="dropdown-toggle">{t("nav.Theaters")}</span>
           <ul className="dropdown-menu" data-testid="theaters-dropdown-menu">
-            <li><a href="#">{t("nav.cinema1")}</a></li>
-            <li><a href="#">{t("nav.cinema2")}</a></li>
-            <li><a href="#">{t("nav.cinema3")}</a></li>
+            <li><Link to="/theaters#cinema-nova">Cinema Nova</Link></li>
+            <li><Link to="/theaters#kino-baltic">Kino Baltic</Link></li>
+            <li><Link to="/theaters#helsinki-central">Helsinki Central</Link></li>
+
           </ul>
         </li>
 
-        <li><Link to="/contact">{t("nav.Contact")}</Link></li>
+        <li><Link to="/contactus">{t("nav.Contact")}</Link></li>
 
         <li><Link to="/history">{t("nav.history")}</Link></li>
 

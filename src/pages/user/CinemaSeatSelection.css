@@ -405,3 +405,139 @@
     transform: translate(-50%, 0);
   }
 }
+
+
+/* =====================================================
+   LIGHT MODE  (Active when <body class="light">)
+   No icons used anywhere.
+===================================================== */
+
+/* Root background */
+body.light .seat-cinemaRoot {
+  background-color: #f2f4f7;
+  color: #111;
+}
+
+/* Movie summary section */
+body.light .seat-movieSummaryBox {
+  background: #5995a0;
+  border: 1px solid #d0d5dd;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+}
+
+body.light .seat-movieSummaryBox h2 {
+  color: #1f2937;
+}
+
+body.light .seat-movieSummaryBox p {
+  color: #374151;
+}
+
+body.light .seat-movieSummaryBox img {
+  border-color: #e5e7eb;
+}
+
+/* User info fields */
+body.light .userInfoBox {
+  background: #78a0af;
+  color: #111;
+  border: 1px solid #d0d5dd;
+}
+
+body.light .userInfoBox input {
+  background: #ffffff;
+  color: #111;
+  border: 1px solid #cbd5e1;
+}
+
+body.light .userInfoBox input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 6px rgba(59,130,246,0.3);
+}
+
+/* Cinema screen label */
+body.light .cinemaGradientBar {
+  background: #ff4747;
+  color: #1f2937;
+  border-bottom: 1px solid #01308d;
+}
+
+/* Seat summary */
+body.light .seatSummary {
+  background-color: #689da7;
+  color: #111;
+  border: 1px solid #d0d5dd;
+}
+
+/* Purchase button */
+body.light .buyTicketsButton {
+  background-color: #3b82f6;
+  color: #ffffff;
+}
+
+body.light .buyTicketsButton:hover {
+  background-color: #2563eb;
+}
+
+/* Legend box */
+body.light .seatLegend {
+  background-color: #66beba;
+  color: #111;
+  border: 1px solid #d0d5dd;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+body.light .seatLegend h2 {
+  color: #1f2937;
+}
+
+body.light .seatLegend p {
+  color: #374151;
+}
+
+/* Toast message */
+body.light .reservationToast {
+  background: #f87171;
+  color: #ffffff;
+  border-left: 5px solid #dc2626;
+}
+
+/* Modal */
+body.light .modalOverlay {
+  background: rgba(0,0,0,0.45);
+}
+
+body.light .modalBox {
+  background-color: #ffffff;
+  color: #111;
+  border: 1px solid #d1d5db;
+}
+
+body.light .modalBox input {
+  background: #f9fafb;
+  color: #111;
+  border: 1px solid #d1d5db;
+}
+
+body.light .modalBox input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 6px rgba(59,130,246,0.35);
+}
+
+body.light .confirmButton {
+  background-color: #16a34a;
+  color: #ffffff;
+}
+
+body.light .confirmButton:hover {
+  background-color: #15803d;
+}
+
+body.light .closeButton {
+  background-color: #e5e7eb;
+  color: #111;
+}
+
+body.light .closeButton:hover {
+  background-color: #d1d5db;
+}

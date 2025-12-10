@@ -2,8 +2,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../../components/navbar/Navbar";
 import SeatMap from "./SeatMap";
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import "./CinemaSeatSelection.css";
 
+// ---------------------------------------------------------------------
+// Interfaces
+// ---------------------------------------------------------------------
 interface Seat {
   row: number;
   col: number;
@@ -18,6 +22,7 @@ interface UserInfo {
 export default function CinemaSeatSelection() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const movieData = location.state?.movie || null;
   const showData = location.state?.show || null;
@@ -29,19 +34,19 @@ export default function CinemaSeatSelection() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  
-  const userInfo: UserInfo = {
-    firstName,
-    lastName,
-    email,
-  };
 
-  if (!movieData || !showData) return <div className="seat-loadingText">Loading...</div>;
+  const userInfo: UserInfo = { firstName, lastName, email };
 
-  
-  // ======================================================
-  // Fetch hall layout
-  // ======================================================
+  // ---------------------------------------------------------------------
+  // Initial validation: Movie/Show required
+  // ---------------------------------------------------------------------
+  if (!movieData || !showData) {
+    return <div className="seat-loadingText">{t("seat.loading")}</div>;
+  }
+
+  // ---------------------------------------------------------------------
+  // Fetch hall layout on mount
+  // ---------------------------------------------------------------------
   useEffect(() => {
     async function fetchHallLayout() {
       try {
@@ -63,23 +68,24 @@ export default function CinemaSeatSelection() {
     }
 
     fetchHallLayout();
-  }, []);
+  }, [showData]);
 
+  // Seat selection callback
   const handleSelect = (seats: Seat[]) => setSelectedSeats(seats);
 
   const totalPrice = selectedSeats.length * (Number(showData.price_amount) || 0);
 
-  // ======================================================
-  // Confirm + TEMP LOCK
-  // ======================================================
+  // ---------------------------------------------------------------------
+  // Confirm seat selection + temporary lock request
+  // ---------------------------------------------------------------------
   const handleConfirm = async () => {
     if (!firstName || !lastName || !email) {
-      alert("Please fill out all personal details.");
+      alert(t("seat.errorFillDetails"));
       return;
     }
 
     if (selectedSeats.length === 0) {
-      alert("Please select at least one seat.");
+      alert(t("seat.errorNoSeats"));
       return;
     }
 
@@ -99,8 +105,7 @@ export default function CinemaSeatSelection() {
       const json = await res.json();
 
       if (!json.success) {
-        alert("Some seats were taken by someone else. Please re-select.");
-        alert("Some seats were taken by someone else. Please choose again.");
+        alert(t("seat.errorSeatTaken"));
         return;
       }
     } catch (err) {
@@ -110,7 +115,6 @@ export default function CinemaSeatSelection() {
 
     navigate("/checkout", {
       state: {
-        
         hallId,
         userInfo,
         selectedSeats,
@@ -121,111 +125,116 @@ export default function CinemaSeatSelection() {
     });
   };
 
-  // ----------------------------
-  // Timer logic (clears selection and reloads page)
-  // ----------------------------
+  // ---------------------------------------------------------------------
+  // Countdown timer for seat reservation
+  // ---------------------------------------------------------------------
   useEffect(() => {
     if (selectedSeats.length === 0) return;
 
-    let totalSeconds = 10 * 60; 
+    let totalSeconds = 10 * 60;
     const warningToast = document.getElementById("reservationWarning");
     const timerEl = document.getElementById("countdownTimer");
 
     if (!warningToast || !timerEl) return;
 
-    warningToast.classList.add("hidden"); 
+    warningToast.classList.add("hidden");
 
     const interval = setInterval(() => {
       totalSeconds--;
 
+      // Show warning at 2 minutes left
       if (totalSeconds === 2 * 60) {
-        warningToast.classList.remove("hidden"); 
+        warningToast.classList.remove("hidden");
       }
 
+      // Update countdown text
       if (!warningToast.classList.contains("hidden")) {
         const min = Math.floor(totalSeconds / 60);
         const sec = totalSeconds % 60;
         timerEl.textContent = `${min}:${sec < 10 ? "0" + sec : sec}`;
       }
 
+      // Expire selection
       if (totalSeconds <= 0) {
         clearInterval(interval);
-        warningToast.innerHTML = "Your reservation has expired. Resetting...";
+        warningToast.innerHTML = t("seat.reservationExpired");
 
-        setSelectedSeats([]); 
+        setSelectedSeats([]);
+
         setTimeout(() => {
-          window.location.reload(); 
+          window.location.reload();
         }, 1500);
       }
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [selectedSeats]);
+  }, [selectedSeats, t]);
 
-  // ----------------------------
+  // ---------------------------------------------------------------------
   // Conditional Rendering
-  // ----------------------------
-  if (!movieData || !showData) return <div className="seat-loadingText">Loading movie/show...</div>;
-  if (!hallData) return <div className="seat-loadingText">Loading hall...</div>;
+  // ---------------------------------------------------------------------
+  if (!hallData) {
+    return <div className="seat-loadingText">{t("seat.loading")}</div>;
+  }
 
-  // ----------------------------
-  // Render
-  // ----------------------------
+  // ---------------------------------------------------------------------
+  // Render Component
+  // ---------------------------------------------------------------------
   return (
     <div className="seat-cinemaRoot">
       <Navbar />
 
-      {/* Movie Summary */}
+      {/* Movie Summary Header */}
       <div className="seat-movieSummaryBox">
         <img src={movieData.poster_url} alt="poster" />
         <div>
           <h2>{movieData.title}</h2>
           <p>{showData.theater_city} — {showData.theater_name}</p>
           <p>
-            {new Date(showData.start_time).toLocaleDateString()} —{" "}
+            {new Date(showData.start_time).toLocaleDateString()} —
             {new Date(showData.start_time).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
           </p>
-          <p>Price per seat: £{showData.price_amount ?? 0}</p>
+          <p>{t("seat.pricePerSeat")}: £{showData.price_amount ?? 0}</p>
         </div>
       </div>
 
-      {/* NEW — User Info Form */}
+      {/* User Information */}
       <div className="userInfoBox">
-        <h2>Your Details</h2>
+        <h2>{t("seat.details")}</h2>
 
         <div className="inputGroup">
-          <label>First Name</label>
+          <label>{t("seat.firstName")}</label>
           <input
             type="text"
-            placeholder="Enter first name"
+            placeholder={t("seat.firstName")}
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
           />
         </div>
 
         <div className="inputGroup">
-          <label>Last Name</label>
+          <label>{t("seat.lastName")}</label>
           <input
             type="text"
-            placeholder="Enter last name"
+            placeholder={t("seat.lastName")}
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
           />
         </div>
 
         <div className="inputGroup">
-          <label>Email</label>
+          <label>{t("seat.email")}</label>
           <input
             type="email"
-            placeholder="Enter email address"
+            placeholder={t("seat.email")}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
       </div>
 
-      {/* Cinema Screen */}
-      <div className="cinemaGradientBar">← Cinema Screen →</div>
+      {/* Cinema Screen Label */}
+      <div className="cinemaGradientBar">{t("seat.screen")}</div>
 
       {/* Seat Map */}
       <SeatMap
@@ -235,33 +244,35 @@ export default function CinemaSeatSelection() {
         onSelect={handleSelect}
       />
 
-      {/* Selected Seats */}
+      {/* Selected Seats Summary */}
       <div className="seatSummary">
         <span>
-          Selected Seats: {selectedSeats.length > 0
+          {t("seat.selectedSeats")}:{" "}
+          {selectedSeats.length > 0
             ? selectedSeats.map(s => `${String.fromCharCode(65 + s.row)}${s.col + 1}`).join(", ")
-            : "None"}
+            : t("seat.none")}
         </span>
-        <span>Total Price: £{totalPrice}</span>
+
+        <span>{t("seat.totalPrice")}: £{totalPrice}</span>
       </div>
 
       {/* Buy Button */}
       <button className="buyTicketsButton" onClick={handleConfirm}>
-        Buy Tickets
+        {t("seat.buyTickets")}
       </button>
 
-      {/* Legend */}
+      {/* Legend Section */}
       <div className="seatLegend">
-        <h2>Seat Legend</h2>
-        <p><span className="seatLegend-red"></span> Reserved — cannot select</p>
-        <p><span className="seatLegend-green"></span> Your Selection — click again to remove</p>
-        <p className="tip">Selected seats are final and cannot be changed after booking.</p>
+        <h2>{t("seat.legendTitle")}</h2>
+        <p><span className="seatLegend-red"></span> {t("seat.legendReserved")}</p>
+        <p><span className="seatLegend-green"></span> {t("seat.legendYourSelection")}</p>
+        <p className="tip">{t("seat.legendFinal")}</p>
       </div>
 
-      {/* Reservation Warning */}
+      {/* Reservation Warning Toast */}
       <div id="reservationWarning" className="reservationToast hidden">
         <p>
-          Your seat reservation will expire in <span id="countdownTimer">2:00</span> minutes. Please complete your purchase to keep your selected seats.
+          {t("seat.reservationExpire")} <span id="countdownTimer">2:00</span>
         </p>
       </div>
     </div>
