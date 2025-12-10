@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import "./register.css";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Register: React.FC = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     full_name: "",
@@ -13,25 +16,67 @@ const Register: React.FC = () => {
   });
 
   const [message, setMessage] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
+  // Strong password validation regex
+  const strongPasswordRegex =
+    /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+  // Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
+
+    // Validate password while typing
+    if (name === "password") {
+      if (!strongPasswordRegex.test(value)) {
+        setPasswordError(
+          "Password must include at least 1 uppercase letter, 1 lowercase letter, 1 number, 1 symbol and be at least 8 characters long."
+        );
+      } else {
+        setPasswordError("");
+      }
+    }
   };
 
+  // Submit form
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const response = await fetch("https://wdfinpopcorebackend-fyfuhuambrfnc3hz.swedencentral-01.azurewebsites.net/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
+    // Final check before sending
+    if (!strongPasswordRegex.test(formData.password)) {
+      setPasswordError(
+        "Password must include at least 1 uppercase letter, 1 lowercase letter, 1 number, 1 symbol and be at least 8 characters long."
+      );
+      return;
+    }
 
-    const data = await response.json();
-    setMessage(data.message || t("register.defaultSuccess"));
+    try {
+      const response = await fetch(
+        "https://wdfinpopcorebackend-fyfuhuambrfnc3hz.swedencentral-01.azurewebsites.net/register",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      const data = await response.json();
+      setMessage(data.message || t("register.defaultSuccess"));
+
+      if (response.ok) {
+        setTimeout(() => {
+          navigate("/login");
+        }, 1000);
+      }
+    } catch (error) {
+      setMessage("An error occurred. Please try again.");
+    }
   };
 
   return (
@@ -65,14 +110,27 @@ const Register: React.FC = () => {
           onChange={handleChange}
         />
 
-        <input
-          type="password"
-          name="password"
-          placeholder={t("register.password")}
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
+        {/* Password with eye icon */}
+        <div className="password-wrapper">
+          <input
+            type={showPassword ? "text" : "password"}
+            name="password"
+            placeholder={t("register.password")}
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+
+          <button
+            type="button"
+            className="toggle-password-btn"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? <FaEyeSlash /> : <FaEye />}
+          </button>
+        </div>
+
+        {passwordError && <p className="msg error">{passwordError}</p>}
 
         <button type="submit">{t("register.button")}</button>
 

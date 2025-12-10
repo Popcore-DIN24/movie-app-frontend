@@ -124,6 +124,34 @@ export default function CinemaSeatSelection() {
       },
     });
   };
+  //---------------------------------------------------------------------
+  // Load user info from localStorage on mount
+  //---------------------------------------------------------------------
+  useEffect(() => {
+    const savedUser = localStorage.getItem("user");
+    if (savedUser) {
+      const user = JSON.parse(savedUser);
+      const fullName = user.full_name || user.name || "";
+
+      let firstName = "";
+      let lastName = "";
+
+      if (fullName.includes(" ")) {
+        const nameParts = fullName.split(" ");
+        firstName = nameParts[0];
+        lastName = nameParts.slice(1).join(" ");
+      } else {
+        firstName = fullName;
+        lastName = fullName;
+      }
+
+      setFirstName(firstName);
+      setLastName(lastName);
+      setEmail(user.email || "");
+    }
+  }, []);
+
+
 
   // ---------------------------------------------------------------------
   // Countdown timer for seat reservation

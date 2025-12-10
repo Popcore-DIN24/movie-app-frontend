@@ -9,7 +9,8 @@
   "history": "Historia",
   "language": "Kieli",
   "signIn": "Kirjaudu sisään",
-  "signUp": "Rekisteröidy"
+  "signUp": "Rekisteröidy",
+  "logout": "Kirjaudu ulos"
 },
   "category": {
     "action": "Toiminta",
@@ -52,7 +53,8 @@
     "email": "Sähköpostiosoite",
     "password": "Salasana",
     "button": "Kirjaudu",
-    "defaultSuccess": "Kirjautuminen onnistui"
+    "defaultSuccess": "Kirjautuminen onnistui",
+    "forgot" : "Unohtuiko salasana?"
   },
   "register": {
     "title": "Luo tili",

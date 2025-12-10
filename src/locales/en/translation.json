@@ -9,7 +9,8 @@
   "history": "History",
   "language": "Language",
   "signIn": "Sign In",
-  "signUp": "Sign Up"
+  "signUp": "Sign Up",
+  "logout": "Log Out"
 },
  "category": {
     "action": "Action",
@@ -52,7 +53,8 @@
     "email": "Email Address",
     "password": "Password",
     "button": "Login",
-    "defaultSuccess": "Login completed"
+    "defaultSuccess": "Login completed",
+    "forgot" : "Forgot password?"
 },
 "register": {
     "title": "Create Account",
