@@ -75,6 +75,18 @@ export default function CinemaSeatSelection() {
 
   const totalPrice = selectedSeats.length * (Number(showData.price_amount) || 0);
 
+  // ======================================================
+  // Confirm + TEMP LOCK
+  // ======================================================
+
+  useEffect(() => {
+    async function createTemporarySeat(){
+      const res = await fetch('https://wdfinpopcorebackend-fyfuhuambrfnc3hz.swedencentral-01.azurewebsites.net/api/dev/create-temp-seat-table')
+      const data = await res.json();
+      console.log("Temporary seat table creation:",data);
+    }
+  createTemporarySeat()}
+    ,[])
   // ---------------------------------------------------------------------
   // Confirm seat selection + temporary lock request
   // ---------------------------------------------------------------------
