@@ -72,6 +72,15 @@ export default function CinemaSeatSelection() {
   // ======================================================
   // Confirm + TEMP LOCK
   // ======================================================
+
+  useEffect(() => {
+    async function createTemporarySeat(){
+      const res = await fetch('https://wdfinpopcorebackend-fyfuhuambrfnc3hz.swedencentral-01.azurewebsites.net/api/dev/create-temp-seat-table')
+      const data = await res.json();
+      console.log("Temporary seat table creation:",data);
+    }
+  createTemporarySeat()}
+    ,[])
   const handleConfirm = async () => {
     if (!firstName || !lastName || !email) {
       alert("Please fill out all personal details.");
