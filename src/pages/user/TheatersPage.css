@@ -1,0 +1,167 @@
+/* Root */
+.theaters-page {
+  background: linear-gradient(145deg, #071427, #030712);
+  min-height: 100vh;
+  padding: 20px;
+  font-family: "Inter", "Arial", sans-serif;
+  color: #e9f4ff;
+}
+
+/* Page Title */
+.page-title {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 28px;
+  letter-spacing: 1px;
+  color: #00eaff;
+  text-shadow: 0 0 12px rgba(0, 234, 255, 0.35);
+  animation: softGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes softGlow {
+  0% { text-shadow: 0 0 8px rgba(0, 234, 255, 0.4); }
+  100% { text-shadow: 0 0 16px rgba(0, 234, 255, 0.7); }
+}
+
+/* Cinema Card — Glass + Neo Modern */
+.cinema-card {
+  background: rgba(14, 18, 34, 0.70);
+  border-radius: 18px;
+  padding: 22px;
+  margin-bottom: 26px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+
+  backdrop-filter: blur(14px) saturate(190%);
+  -webkit-backdrop-filter: blur(14px) saturate(190%);
+
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.55),
+    inset 0 0 25px rgba(255, 255, 255, 0.03);
+
+  transition: all 0.35s ease, transform 0.5s ease;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.cinema-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.cinema-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow:
+    0 14px 40px rgba(0, 0, 0, 0.7),
+    inset 0 0 30px rgba(255, 255, 255, 0.06);
+}
+
+/* Highlight hash scroll */
+.cinema-card.highlight {
+  animation: highlightGlow 2s ease;
+}
+
+@keyframes highlightGlow {
+  0%, 100% { box-shadow: 0 0 25px #00eaff; }
+  50% { box-shadow: 0 0 40px #00eaff; }
+}
+
+/* Cinema Title */
+.cinema-card h2 {
+  font-size: 1.55rem;
+  color: #40e0ff;
+  margin-bottom: 14px;
+  text-shadow: 0 0 10px rgba(64, 224, 255, 0.4);
+}
+
+/* Info text */
+.cinema-card p {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  color: #d8f4ff;
+  letter-spacing: 0.4px;
+  line-height: 1.45;
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  margin-right: 6px;
+}
+
+/* List */
+.cinema-card ul {
+  margin-top: 10px;
+  padding-left: 18px;
+  list-style: none;
+}
+
+.cinema-card ul li {
+  font-size: 0.95rem;
+  color: #b7f4ff;
+  margin-bottom: 6px;
+  padding-left: 16px;
+  position: relative;
+  font-weight: 500;
+}
+
+.cinema-card ul li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 8px;
+  height: 8px;
+  background: #00eaff;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(0, 234, 255, 0.6);
+}
+
+/* LIGHT MODE */
+body.light .theaters-page {
+  background: linear-gradient(145deg, #eef1f7, #d7deea);
+  color: #1b1b1b;
+}
+
+body.light .cinema-card {
+  background: rgba(255,255,255,0.85);
+  border: 1px solid rgba(0,0,0,0.06);
+  backdrop-filter: blur(10px);
+  box-shadow:
+    0 10px 20px rgba(0,0,0,0.12),
+    inset 0 0 8px rgba(255,255,255,0.6);
+}
+
+body.light .cinema-card h2 {
+  color: #0066cc;
+  text-shadow: none;
+}
+
+body.light .cinema-card p,
+body.light .cinema-card ul li {
+  color: #222;
+}
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 768px) {
+  .page-title {
+    font-size: 1.6rem;
+  }
+
+  .cinema-card {
+    padding: 18px;
+    border-radius: 16px;
+  }
+
+  .cinema-card h2 {
+    font-size: 1.3rem;
+  }
+
+  .cinema-card p {
+    font-size: 0.9rem;
+  }
+
+  .cinema-card ul li {
+    font-size: 0.85rem;
+  }
+}

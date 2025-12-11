@@ -1,0 +1,173 @@
+.contactRoot {
+  background: linear-gradient(135deg, #0b1a3d, #060d21);
+  min-height: 100vh;
+  padding: 16px;
+  box-sizing: border-box;
+  font-family: "Arial", sans-serif;
+  color: #e7f8ff;
+}
+
+.contactTitle {
+  font-size: 1.8rem;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 24px;
+  color: #00e5ff;
+  text-shadow: 0 0 10px #00e5ff, 0 0 20px #00bcd4;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  0% { text-shadow: 0 0 5px #00e5ff, 0 0 10px #00bcd4; }
+  100% { text-shadow: 0 0 15px #00e5ff, 0 0 30px #00bcd4; }
+}
+
+.contactCard {
+  background: rgba(20, 20, 35, 0.95);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contactCard h2 {
+  font-size: 1.4rem;
+  margin-bottom: 8px;
+  color: #f39c12;
+}
+
+.contactCard p {
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+  color: #d0f0ff;
+}
+
+.contactForm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.contactForm input,
+.contactForm textarea {
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(255,255,255,0.1);
+  color: #e7f8ff;
+  font-size: 0.95rem;
+  outline: none;
+  backdrop-filter: blur(6px);
+}
+
+.contactForm input::placeholder,
+.contactForm textarea::placeholder {
+  color: #c0e5ffaa;
+}
+
+.sendButton {
+  background: #ff4d4f;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.sendButton:hover {
+  background: #ff1a1a;
+  transform: scale(1.05);
+}
+
+.successMessage {
+  color: #00ff99;
+  font-weight: bold;
+  margin-top: 6px;
+  text-align: center;
+}
+
+.contactInfo p {
+  margin-top: 6px;
+  font-size: 0.9rem;
+  color: #a0f0ff;
+}
+
+/* LIGHT MODE */
+body.light .contactRoot {
+  background: linear-gradient(135deg, #f5f7fa, #e0e4f0);
+  color: #1a1a1a;
+}
+
+body.light .contactCard {
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(8px) saturate(180%);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+body.light .contactCard h2 {
+  color: #0066cc;
+}
+
+body.light .contactCard p,
+body.light .contactCard input,
+body.light .contactCard textarea,
+body.light .contactInfo p {
+  color: #222;
+}
+
+body.light .contactForm input,
+body.light .contactForm textarea {
+  background: #ffffff;
+  color: #000;
+}
+
+/* MOBILE SPECIFIC */
+@media (max-width: 768px) {
+  .contactTitle {
+    font-size: 1.6rem;
+  }
+
+  .contactCard {
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  .contactCard h2 {
+    font-size: 1.3rem;
+  }
+
+  .contactForm input,
+  .contactForm textarea {
+    font-size: 0.9rem;
+  }
+
+  .sendButton {
+    padding: 10px;
+    font-size: 0.95rem;
+  }
+
+  .contactInfo p {
+    font-size: 0.85rem;
+  }
+}
+
+.contactBanner {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.contactBanner img {
+  width:90%;
+  max-width: 400px;
+  object-fit: cover;
+  margin-top: 70px;
+  
+}
+
+

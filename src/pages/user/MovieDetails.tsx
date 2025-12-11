@@ -130,16 +130,18 @@ export default function MovieDetails() {
       if (!movie?.description) return;
 
       try {
-        const res = await fetch("/api/translate", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text: movie.description, targetLang: apiLang }),
-        });
+        const res = await fetch(
+          "https://wdfinpopcorebackend-fyfuhuambrfnc3hz.swedencentral-01.azurewebsites.net/api/translate",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              text: movie.description,
+              targetLang: apiLang,
+            }),
+          }
+        );
 
-        if (!res.ok) {
-          console.error("Translation API returned non-OK:", res.status);
-          return;
-        }
 
         const data = await res.json();
         if (data.translatedText) setTranslatedDescription(data.translatedText);

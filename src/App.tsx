@@ -13,6 +13,8 @@ import SuccessfulPayment from './pages/user/SuccessfulPayment';
 import Register from './pages/user/Register';
 import "./i18n";
 import { ThemeProvider } from "./ThemeContext";
+import TheatersPage from './pages/user/TheatersPage';
+import ForgotPassword from './pages/Auth/ForgotPassword';
 
 
 function App() {
@@ -52,6 +54,12 @@ function App() {
         },{
           path:"/signup",
           element:<Register/>
+        },{
+          path:"/theaters",
+          element:<TheatersPage/>
+        },{
+          path:"/forgot-password",
+          element:<ForgotPassword/>
         }
 
 

@@ -19,6 +19,7 @@
   gap: 15px;
   color: rgb(15, 2, 51);
   margin-top: -120px;
+  border-radius: 12px;
 }
 
 .login-box h2 {
@@ -29,19 +30,55 @@
 
 /* --- Inputs --- */
 .login-box input {
+  width: 100%;
   padding: 12px;
   border-radius: 8px;
   border: none;
   outline: none;
-  font-size: 20px;
+  font-size: 16px;
+  box-sizing: border-box; 
+  height: 48px;
 }
 
 .login-box input:focus {
   box-shadow: 0 0 5px #66aaff;
 }
 
+/* --- Password wrapper --- */
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-wrapper input {
+  padding-right: 45px; 
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.toggle-password-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none !important;
+  background: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  appearance: none;
+  cursor: pointer;
+  font-size: 20px;
+  color: rgb(8, 1, 70);
+  transition: 0.2s ease;
+}
+
+.toggle-password-btn:hover {
+  transform: scale(1.2) translateY(-50%);
+  color: #f5f5f5;
+}
+
 /* --- Submit Button --- */
-.login-box button {
+.login-box button[type="submit"] {
   padding: 12px;
   border: none;
   border-radius: 8px;
@@ -52,7 +89,7 @@
   transition: 0.2s;
 }
 
-.login-box button:hover {
+.login-box button[type="submit"]:hover {
   background-color: #005fcc;
 }
 
@@ -61,5 +98,36 @@
   text-align: center;
   margin-top: 10px;
   font-size: 14px;
-  color: #ffdd66;
+  color: #770006;
+}
+
+/* --- Login Options --- */
+.login-options {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 10px 0;
+}
+
+.remember-me {
+  display: flex;
+  gap: 5px;
+  font-size: 14px;
+  align-items: center;
+}
+
+.forgot-password-btn {
+  background: none !important;
+  border: none;
+  color: #02244b !important;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: underline;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.forgot-password-btn:hover {
+  color: #005fcc;
+  text-shadow: 0 0 4px rgba(0, 95, 204, 0.3);
 }
