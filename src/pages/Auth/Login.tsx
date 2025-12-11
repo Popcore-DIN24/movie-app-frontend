@@ -118,7 +118,7 @@ const Login: React.FC = () => {
                 checked={rememberMe}
                 onChange={handleChange}
               />
-              {t("login.remember")}
+              {t("Remember Me")}
             </label>
 
             <button

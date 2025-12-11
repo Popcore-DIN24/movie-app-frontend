@@ -120,7 +120,6 @@ export default function Navbar() {
         </li>
 
         <li><Link to="/contactus">{t("nav.Contact")}</Link></li>
-        <li><Link to="/history">{t("nav.history")}</Link></li>
 
         {/* Language dropdown */}
         <li
