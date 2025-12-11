@@ -164,6 +164,37 @@
   display: flex;
 }
 
+
+.user-dropdown-menu {
+  background-color: var(--dropdown-bg);
+  border-radius: 6px;
+  padding: 10px 15px; 
+  min-width: 180px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.user-dropdown-menu .user-name {
+  display: block;
+  padding: 5px 10px; 
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: var(--text-color);
+  word-break: break-word; 
+}
+.user-dropdown-menu .logout-btn {
+  background: none; 
+  border: none;     
+  color: var(--primary-color); 
+  cursor: pointer;
+  padding: 5px 10px;
+  font-size: 14px;
+  text-align: left; 
+}
+
+.user-dropdown-menu .logout-btn:hover {
+  text-decoration: underline; 
+}
+
 /* ======== Language Button Style ======== */
 .lang-btn {
   background: none;      

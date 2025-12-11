@@ -9,7 +9,8 @@
   "history": "Historia",
   "language": "Kieli",
   "signIn": "Kirjaudu sisään",
-  "signUp": "Rekisteröidy"
+  "signUp": "Rekisteröidy",
+  "logout": "Kirjaudu ulos"
 },
   "category": {
     "action": "Toiminta",
@@ -52,7 +53,8 @@
     "email": "Sähköpostiosoite",
     "password": "Salasana",
     "button": "Kirjaudu",
-    "defaultSuccess": "Kirjautuminen onnistui"
+    "defaultSuccess": "Kirjautuminen onnistui",
+    "forgot" : "Unohtuiko salasana?"
   },
   "register": {
     "title": "Luo tili",
@@ -62,6 +64,24 @@
     "password": "Salasana",
     "button": "Rekisteröidy",
     "defaultSuccess": "Rekisteröinti onnistui"
+  },
+  "seat": {
+    "details": "Henkilötiedot",
+    "firstName": "Etunimi",
+    "lastName": "Sukunimi",
+    "email": "Sähköposti",
+    "pricePerSeat": "Hinta per paikka",
+    "selectedSeats": "Valitut paikat",
+    "totalPrice": "Kokonaishinta",
+    "buyTickets": "Osta liput",
+    "loading": "Ladataan...",
+    "screen": "Elokuvateatterin näyttö",
+    "legendTitle": "Paikkavalikon merkinnät",
+    "legendReserved": "Varattu — ei voi valita",
+    "legendYourSelection": "Valintasi — poista napsauttamalla",
+    "legendFinal": "Valitut paikat ovat lopullisia eikä niitä voi muuttaa.",
+    "reservationExpire": "Paikkavarauksesi vanhenee",
+    "reservationExpired": "Varauksesi on vanhentunut. Päivitetään..."
   }
 
 }
