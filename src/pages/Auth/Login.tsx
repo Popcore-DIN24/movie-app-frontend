@@ -45,37 +45,41 @@ const Login: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const response = await fetch(
-      "https://wdfinpopcorebackend-fyfuhuambrfnc3hz.swedencentral-01.azurewebsites.net/user/login",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+    try {
+      const response = await fetch(
+        "https://wdfinpopcorebackend-fyfuhuambrfnc3hz.swedencentral-01.azurewebsites.net/user/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      const data = await response.json();
+      setMessage(data.message || t("login.defaultSuccess"));
+
+      if (response.ok) {
+        localStorage.setItem("user", JSON.stringify(data.user));
+
+        // Save Remember Me data
+        if (rememberMe) {
+          localStorage.setItem("rememberEmail", formData.email);
+          localStorage.setItem("rememberPassword", formData.password);
+        } else {
+          localStorage.removeItem("rememberEmail");
+          localStorage.removeItem("rememberPassword");
+        }
+
+        navigate("/");
       }
-    );
-
-    const data = await response.json();
-    setMessage(data.message || t("login.defaultSuccess"));
-
-    if (response.ok) {
-      localStorage.setItem("user", JSON.stringify(data.user));
-
-      // Save Remember Me data
-      if (rememberMe) {
-        localStorage.setItem("rememberEmail", formData.email);
-        localStorage.setItem("rememberPassword", formData.password);
-      } else {
-        localStorage.removeItem("rememberEmail");
-        localStorage.removeItem("rememberPassword");
-      }
-
-      navigate("/");
+    } catch (err) {
+      setMessage(t("login.error"));
     }
   };
 
   return (
     <div>
-      <div className="login-container">
+      <div className="login-container" data-testid="login-page">
         <form className="login-box" onSubmit={handleSubmit}>
           <h2>{t("login.title")}</h2>
 
@@ -87,6 +91,7 @@ const Login: React.FC = () => {
             value={formData.email}
             onChange={handleChange}
             required
+            data-testid="email-input"
           />
 
           {/* Password with eye icon */}
@@ -98,13 +103,14 @@ const Login: React.FC = () => {
               value={formData.password}
               onChange={handleChange}
               required
+              data-testid="password-input"
             />
-
             <button
               type="button"
               className="toggle-password-btn"
               aria-label="show-hide-password"
               onClick={() => setShowPassword(!showPassword)}
+              data-testid="toggle-password-btn"
             >
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </button>
@@ -117,6 +123,7 @@ const Login: React.FC = () => {
                 type="checkbox"
                 checked={rememberMe}
                 onChange={handleChange}
+                data-testid="remember-me-checkbox"
               />
               {t("login.remember")}
             </label>
@@ -125,14 +132,21 @@ const Login: React.FC = () => {
               type="button"
               className="forgot-password-btn"
               onClick={() => navigate("/forgot-password")}
+              data-testid="forgot-password-btn"
             >
               {t("login.forgot")}
             </button>
           </div>
 
-          <button type="submit">{t("login.button")}</button>
+          <button type="submit" data-testid="login-submit-btn">
+            {t("login.button")}
+          </button>
 
-          {message && <p className="msg">{message}</p>}
+          {message && (
+            <p className="msg" data-testid="login-msg">
+              {message}
+            </p>
+          )}
         </form>
       </div>
 
