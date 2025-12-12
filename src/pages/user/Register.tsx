@@ -19,20 +19,14 @@ const Register: React.FC = () => {
   const [passwordError, setPasswordError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  // Strong password validation regex
   const strongPasswordRegex =
     /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-  // Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setFormData({ ...formData, [name]: value });
 
-    // Validate password while typing
     if (name === "password") {
       if (!strongPasswordRegex.test(value)) {
         setPasswordError(
@@ -44,11 +38,9 @@ const Register: React.FC = () => {
     }
   };
 
-  // Submit form
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Final check before sending
     if (!strongPasswordRegex.test(formData.password)) {
       setPasswordError(
         "Password must include at least 1 uppercase letter, 1 lowercase letter, 1 number, 1 symbol and be at least 8 characters long."
@@ -80,7 +72,7 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="register-container">
+    <div className="register-container" data-testid="register-page">
       <form className="register-box" onSubmit={handleSubmit}>
         <h2>{t("register.title")}</h2>
 
@@ -91,6 +83,7 @@ const Register: React.FC = () => {
           value={formData.full_name}
           onChange={handleChange}
           required
+          data-testid="full-name-input"
         />
 
         <input
@@ -100,6 +93,7 @@ const Register: React.FC = () => {
           value={formData.email}
           onChange={handleChange}
           required
+          data-testid="email-input"
         />
 
         <input
@@ -108,9 +102,9 @@ const Register: React.FC = () => {
           placeholder={t("register.phoneOptional")}
           value={formData.phone}
           onChange={handleChange}
+          data-testid="phone-input"
         />
 
-        {/* Password with eye icon */}
         <div className="password-wrapper">
           <input
             type={showPassword ? "text" : "password"}
@@ -119,22 +113,34 @@ const Register: React.FC = () => {
             value={formData.password}
             onChange={handleChange}
             required
+            data-testid="password-input"
           />
 
           <button
             type="button"
             className="toggle-password-btn"
             onClick={() => setShowPassword(!showPassword)}
+            data-testid="toggle-password-btn"
           >
             {showPassword ? <FaEyeSlash /> : <FaEye />}
           </button>
         </div>
 
-        {passwordError && <p className="msg error">{passwordError}</p>}
+        {passwordError && (
+          <p className="msg error" data-testid="password-error">
+            {passwordError}
+          </p>
+        )}
 
-        <button type="submit">{t("register.button")}</button>
+        <button type="submit" data-testid="register-submit-btn">
+          {t("register.button")}
+        </button>
 
-        {message && <p className="msg">{message}</p>}
+        {message && (
+          <p className="msg" data-testid="register-msg">
+            {message}
+          </p>
+        )}
       </form>
     </div>
   );
